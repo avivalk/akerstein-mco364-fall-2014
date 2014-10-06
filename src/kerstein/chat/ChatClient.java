@@ -10,7 +10,7 @@ public class ChatClient {
 	
 	public ChatClient(String output) throws UnknownHostException, IOException{
 	this.output=output;
-	Socket socket=new Socket("192.168.117.97", 8080);
+	Socket socket=new Socket("192.168.1.106", 8080);
 	OutputStream out = socket.getOutputStream();
 	out.write(output.getBytes());
 	out.flush();

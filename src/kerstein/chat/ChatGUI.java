@@ -22,7 +22,7 @@ public class ChatGUI extends JFrame {
 
 	public ChatGUI() throws IOException {
 		this.setTitle("Chat");
-		this.setSize(600, 100);
+		this.setSize(600, 700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		messages = new JTextArea("OUR CHAT");
@@ -78,12 +78,11 @@ public class ChatGUI extends JFrame {
 			JTextField typeMessage = gui.getTypeMessages();
 			JTextArea messages = gui.getMessages();
 			Socket socket = null;
-			ServerSocket serverSocket = new ServerSocket(8080);
-			while (true) {// server should constantly be listening
-				socket = serverSocket.accept();
-				ChatSocketThread thread = new ChatSocketThread(socket,  messages);
+			//while (true) {// server should constantly be listening
+				//socket = serverSocket.accept();
+				ChatSocketThread thread = new ChatSocketThread(messages);
 				thread.start();
-			}
+			//}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

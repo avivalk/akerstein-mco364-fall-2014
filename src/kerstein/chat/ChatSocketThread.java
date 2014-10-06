@@ -3,36 +3,32 @@ package kerstein.chat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 
-	import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 	public class ChatSocketThread extends Thread {
-		Socket socket;
+		private ServerSocket serverSocket;
 		JTextArea messages;
 
-		public ChatSocketThread(Socket socket, JTextArea messages) {
-			this.socket = socket;
+		public ChatSocketThread(JTextArea messages) {
 			this.messages=messages;
 		}
 
 		public void run() {
-
-			InputStream in;
 			try {
-				in = socket.getInputStream();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(in));// getting
-																						// back
-																						// the
-																						// HTML
-																						// of
-																						// the
-																						// page
+				serverSocket = new ServerSocket(8080);
+
+				int clientNo = 1;
+				while (true) {
+					Socket socket = serverSocket.accept();
+					try {
+
+				InputStream in = socket.getInputStream();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 				String line;
-				while (!"".equals((line = reader.readLine()))) {
+				while ((line=reader.readLine())!=null) {
 	            messages.append("\n" + line);	
 	            
 				}
@@ -41,6 +37,12 @@ import javax.swing.JTextField;
 				e.printStackTrace();
 			}
 
+					clientNo++;
+				}
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
-
