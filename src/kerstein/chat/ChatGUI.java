@@ -25,7 +25,7 @@ public class ChatGUI extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
-			socket = new Socket("192.168.117.107", 3773);
+			socket = new Socket("localhost", 5050);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
