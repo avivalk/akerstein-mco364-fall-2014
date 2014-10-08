@@ -19,12 +19,19 @@ public class ChatGUI extends JFrame {
 	private JTextField typeMessage;
 	private JButton send;
 	private JPanel panel;
+	private Socket socket;
 
-	public ChatGUI() throws IOException {
+
+	public ChatGUI()  {
 		this.setTitle("Chat");
 		this.setSize(600, 700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		try {
+			socket=new Socket("192.168.117.107", 3773);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		messages = new JTextArea("OUR CHAT");
 		typeMessage = new JTextField();
 		panel = new JPanel();
@@ -35,6 +42,8 @@ public class ChatGUI extends JFrame {
 		panel.add(typeMessage, BorderLayout.CENTER);
 		panel.add(send, BorderLayout.EAST);
 		this.add(panel, BorderLayout.SOUTH);
+		ChatSocketThread thread = new ChatSocketThread(messages, socket);
+		thread.start();
        send.addActionListener(new SendListener(typeMessage, messages));
 	}
 	private class SendListener implements ActionListener{
@@ -48,10 +57,9 @@ public class ChatGUI extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0){
-			String output=typeMessage.getText();
-			messages.append("\n" + output);
+			String output=typeMessage.getText() +"\n";
 			try {
-				ChatClient client= new ChatClient(output);
+				ChatClient client= new ChatClient(output, getSocket());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -68,25 +76,15 @@ public class ChatGUI extends JFrame {
 		return messages;
 
 	}
+	public Socket getSocket(){
+		return socket;
+	}
 
 	public static void main(String[] args) {
-		ChatGUI gui;
-		try {
-			gui = new ChatGUI();
+		ChatGUI gui= new ChatGUI();
 			gui.setVisible(true);
 
-			JTextField typeMessage = gui.getTypeMessages();
-			JTextArea messages = gui.getMessages();
-			Socket socket = null;
-			//while (true) {// server should constantly be listening
-				//socket = serverSocket.accept();
-				ChatSocketThread thread = new ChatSocketThread(messages);
-				thread.start();
-			//}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 }

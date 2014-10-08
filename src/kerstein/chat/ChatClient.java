@@ -5,15 +5,17 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JTextArea;
+
 public class ChatClient {
-	String output;
-	
-	public ChatClient(String output) throws UnknownHostException, IOException{
-	this.output=output;
-	Socket socket=new Socket("192.168.1.106", 8080);
-	OutputStream out = socket.getOutputStream();
-	out.write(output.getBytes());
-	out.flush();
-	out.close();
-}
+	private String output;
+	private Socket socket;
+
+	public ChatClient(String output, Socket socket) throws UnknownHostException, IOException {
+		this.output = output;
+		this.socket = socket;
+		OutputStream out = socket.getOutputStream();
+		out.write(output.getBytes());
+		out.flush();	
+	}
 }
