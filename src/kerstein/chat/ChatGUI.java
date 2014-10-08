@@ -4,12 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,14 +19,13 @@ public class ChatGUI extends JFrame {
 	private JPanel panel;
 	private Socket socket;
 
-
-	public ChatGUI()  {
+	public ChatGUI() {
 		this.setTitle("Chat");
 		this.setSize(600, 700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
-			socket=new Socket("192.168.117.107", 3773);
+			socket = new Socket("192.168.117.107", 3773);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -44,28 +41,29 @@ public class ChatGUI extends JFrame {
 		this.add(panel, BorderLayout.SOUTH);
 		ChatSocketThread thread = new ChatSocketThread(messages, socket);
 		thread.start();
-       send.addActionListener(new SendListener(typeMessage, messages));
+		send.addActionListener(new SendListener(typeMessage, messages));
 	}
-	private class SendListener implements ActionListener{
+
+	private class SendListener implements ActionListener {
 		private JTextField typeMessage;
 		private JTextArea messages;
-		public SendListener(JTextField typeMessage, JTextArea messages){
-			this.typeMessage=typeMessage;
-			this.messages=messages;
+
+		public SendListener(JTextField typeMessage, JTextArea messages) {
+			this.typeMessage = typeMessage;
+			this.messages = messages;
 		}
-		
 
 		@Override
-		public void actionPerformed(ActionEvent arg0){
-			String output=typeMessage.getText() +"\n";
+		public void actionPerformed(ActionEvent arg0) {
+			String output = typeMessage.getText() + "\n";
 			try {
-				ChatClient client= new ChatClient(output, getSocket());
+				ChatClient client = new ChatClient(output, getSocket());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			typeMessage.setText("");
 		}
-		
+
 	}
 
 	public JTextField getTypeMessages() {
@@ -76,15 +74,15 @@ public class ChatGUI extends JFrame {
 		return messages;
 
 	}
-	public Socket getSocket(){
+
+	public Socket getSocket() {
 		return socket;
 	}
 
 	public static void main(String[] args) {
-		ChatGUI gui= new ChatGUI();
-			gui.setVisible(true);
+		ChatGUI gui = new ChatGUI();
+		gui.setVisible(true);
 
-		
 	}
 
 }

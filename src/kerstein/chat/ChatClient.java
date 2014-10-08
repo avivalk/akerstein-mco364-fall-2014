@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.swing.JTextArea;
 
 public class ChatClient {
 	private String output;
@@ -16,6 +15,6 @@ public class ChatClient {
 		this.socket = socket;
 		OutputStream out = socket.getOutputStream();
 		out.write(output.getBytes());
-		out.flush();	
+		out.flush();
 	}
 }
