@@ -10,29 +10,27 @@ import javax.swing.JTextArea;
 
 public class ChatSocketThread extends Thread {
 	private Socket socket;
-	private JTextArea messages;
+	private ChatGUI gui;
 
-	public ChatSocketThread(JTextArea messages, Socket socket) {
-		this.messages = messages;
+	public ChatSocketThread(ChatGUI gui, Socket socket) {
+		this.gui = gui;
 		this.socket = socket;
 	}
 
 	public void run() {
-
-		int clientNo = 1;
+		InputStream in;
 		try {
-			InputStream in = socket.getInputStream();
+			in = socket.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 			String line;
 			while ((line = reader.readLine()) != null) {
-				messages.append("\n" + line);
+				gui.printRecievedMessage(line);
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		clientNo++;
 	}
 
 }

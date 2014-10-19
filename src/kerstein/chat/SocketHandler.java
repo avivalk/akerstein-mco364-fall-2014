@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
 public class SocketHandler extends Thread {
    private Socket socket;
-   private Queue<String>messages;
+   private  BlockingQueue<String>messages;
    
-   public SocketHandler(Socket socket,Queue<String>messages){
+   public SocketHandler(Socket socket,BlockingQueue<String>messages){
 	   this.socket=socket;
 	   this.messages=messages;
    }

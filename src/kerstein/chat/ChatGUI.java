@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 
 import javax.swing.JButton;
@@ -12,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class ChatGUI extends JFrame {
+public class ChatGUI extends JFrame imp {
 	private JTextArea messages;
 	private JTextField typeMessage;
 	private JButton send;
@@ -25,7 +26,7 @@ public class ChatGUI extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
-			socket = new Socket("localhost", 5050);
+			socket = new Socket("localhost", 3773);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -39,25 +40,25 @@ public class ChatGUI extends JFrame {
 		panel.add(typeMessage, BorderLayout.CENTER);
 		panel.add(send, BorderLayout.EAST);
 		this.add(panel, BorderLayout.SOUTH);
-		ChatSocketThread thread = new ChatSocketThread(messages, socket);
+		ChatSocketThread thread = new ChatSocketThread(this, socket);
 		thread.start();
-		send.addActionListener(new SendListener(typeMessage, messages));
+		send.addActionListener(new SendListener(this));
 	}
 
 	private class SendListener implements ActionListener {
-		private JTextField typeMessage;
-		private JTextArea messages;
+		private ChatGUI gui;;
 
-		public SendListener(JTextField typeMessage, JTextArea messages) {
-			this.typeMessage = typeMessage;
-			this.messages = messages;
+		public SendListener(ChatGUI gui) {
+			this.gui = gui;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			String output = typeMessage.getText() + "\n";
+			String output = typeMessage.getText();
 			try {
-				ChatClient client = new ChatClient(output, getSocket());
+				OutputStream out = socket.getOutputStream();
+				out.write((output + "\n").getBytes());
+				out.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -77,6 +78,10 @@ public class ChatGUI extends JFrame {
 
 	public Socket getSocket() {
 		return socket;
+	}
+
+	public void printRecievedMessage(String line) {
+		messages.append("\n" + line);
 	}
 
 	public static void main(String[] args) {

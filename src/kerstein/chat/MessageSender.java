@@ -1,4 +1,4 @@
-package kerstein.chat;
+package src.kerstein.chat;
 
 import java.io.IOException;
 import java.io.OutputStream;
