@@ -11,10 +11,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class MultiChatServer {
 
 	public static void main(String[] args) throws IOException {
-		ServerSocket serverSocket = new ServerSocket(3773);
+		ServerSocket serverSocket = new ServerSocket(5050);
 		BlockingQueue<String> messages = new LinkedBlockingQueue<String>();
 		List<Socket> sockets = new ArrayList<Socket>();
-		MessageSender sender = new MessageSender(messages, sockets);
+		MessageSender sender = new MessageSender(sockets, messages);
 		sender.start();
 
 		while (true) {

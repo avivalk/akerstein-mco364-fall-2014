@@ -8,24 +8,27 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
 public class SocketHandler extends Thread {
-   private Socket socket;
-   private  BlockingQueue<String>messages;
-   
-   public SocketHandler(Socket socket,BlockingQueue<String>messages){
-	   this.socket=socket;
-	   this.messages=messages;
-   }
-   public void run() {
+	private Socket socket;
+	private BlockingQueue<String> messages;
 
-		InputStream in;
+	public SocketHandler(Socket socket, BlockingQueue<String> messages) {
+		this.socket = socket;
+		this.messages = messages;
+	}
+
+	@Override
+	public void run() {
 		try {
-			in = socket.getInputStream();
+			InputStream in = socket.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
 			String line;
-			while ((line=reader.readLine())!=null) {
-}                 messages.add(line);
+			while ((line = reader.readLine()) != null) {
+				messages.add(line);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-   }
+	}
+
 }

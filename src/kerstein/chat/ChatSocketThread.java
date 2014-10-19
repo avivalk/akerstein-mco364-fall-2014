@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import javax.swing.JTextArea;
-
 public class ChatSocketThread extends Thread {
 	private Socket socket;
 	private ChatGUI gui;

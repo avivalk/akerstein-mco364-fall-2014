@@ -10,11 +10,13 @@ import java.net.Socket;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class ChatGUI extends JFrame imp {
+public class ChatGUI extends JFrame {
 	private JTextArea messages;
+	private JScrollPane scroll;
 	private JTextField typeMessage;
 	private JButton send;
 	private JPanel panel;
@@ -22,21 +24,22 @@ public class ChatGUI extends JFrame imp {
 
 	public ChatGUI() {
 		this.setTitle("Chat");
-		this.setSize(600, 700);
+		this.setSize(400, 700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
-			socket = new Socket("localhost", 3773);
+			socket = new Socket("localhost", 5050);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		messages = new JTextArea("OUR CHAT");
+		scroll = new JScrollPane(messages);
 		typeMessage = new JTextField();
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		send = new JButton("SEND");
 		this.setLayout(new BorderLayout());
-		this.add(messages, BorderLayout.NORTH);
+		this.add(scroll, BorderLayout.CENTER);
 		panel.add(typeMessage, BorderLayout.CENTER);
 		panel.add(send, BorderLayout.EAST);
 		this.add(panel, BorderLayout.SOUTH);
