@@ -1,38 +1,34 @@
 package kerstein.paint;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
 public class Canvas extends JComponent {
-	int x;
-	int y;
-	int x2;
-	int y2;
-	Graphics g;
+	Color color=Color.BLACK;
+	Graphics2D g;
 
 	BufferedImage image;
 
 	public Canvas() {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		g=image.getGraphics();
 	}
 
-	public void setPoint(int x, int y) {
-		this.x = x;
-		this.y = y;
-		g.setColor(Color.BLACK);
-		g.fillOval(x,y,10,10);
-	}
-	public void setPoint2(int x, int y){
-		this.x2=x;
-		this.y2=y;
-		g.setColor(Color.BLACK);
-		g.drawLine(x,y,x2,y2);
+	public void setPenColor(Color color) {
+		this.color = color;
 	}
 
+	public void setLine(int x, int y, int x2, int y2) {
+		g = (Graphics2D) image.getGraphics();
+		g.setColor(color);
+		g.setStroke(new BasicStroke(7));
+		g.drawLine(x, y, x2, y2);
+	}
+   
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
