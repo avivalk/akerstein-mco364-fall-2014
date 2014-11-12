@@ -9,14 +9,15 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 
 public class Canvas extends JComponent {
-	Color color=Color.BLACK;
+	Color color = Color.BLACK;
 	Graphics2D g;
 
 	BufferedImage image;
 
 	public Canvas() {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		g= (Graphics2D) image.getGraphics();;
+		g = (Graphics2D) image.getGraphics();
+		;
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 	}
@@ -31,12 +32,13 @@ public class Canvas extends JComponent {
 
 		g.drawLine(x, y, x2, y2);
 	}
-	public void clear(){
+
+	public void clear() {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		repaint();
 	}
-   
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

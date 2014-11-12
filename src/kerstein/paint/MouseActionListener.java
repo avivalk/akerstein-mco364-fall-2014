@@ -6,12 +6,12 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-public class MouseActionListener implements MouseMotionListener, MouseListener ,MouseWheelListener{
+public class MouseActionListener implements MouseMotionListener, MouseListener, MouseWheelListener {
 
 	private Canvas canvas;
 	int sx;
 	int sy;
-	int strokeWidth=7;
+	int strokeWidth = 7;
 	boolean onDrag;
 
 	public MouseActionListener(Canvas canvas) {
@@ -67,9 +67,9 @@ public class MouseActionListener implements MouseMotionListener, MouseListener ,
 	}
 
 	@Override
-	public void mouseWheelMoved(MouseWheelEvent e){
-	strokeWidth+=e.getUnitsToScroll();
-	
-}
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		strokeWidth += e.getUnitsToScroll();
+
+	}
 
 }
