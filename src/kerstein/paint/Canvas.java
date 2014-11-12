@@ -7,29 +7,39 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 public class Canvas extends JComponent {
-	Color color = Color.BLACK;
-	Graphics2D g;
-
-	BufferedImage image;
+	private Color color = Color.BLACK;
+	private Graphics2D g;
+	private BufferedImage image;
+	private int strokeWidth;
 
 	public Canvas() {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 		g = (Graphics2D) image.getGraphics();
-		;
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
+	}
+
+	public int getStrokeWidth() {
+		return strokeWidth;
+	}
+	public void setStrokeWidth(int width){
+		this.strokeWidth=width;
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 	public void setPenColor(Color color) {
 		this.color = color;
 	}
 
-	public void setLine(int x, int y, int x2, int y2, int width) {
+	public void setLine(int x, int y, int x2, int y2) {
 		g.setColor(color);
-		g.setStroke(new BasicStroke(width));
-
+		g.setStroke(new BasicStroke(getStrokeWidth()));
 		g.drawLine(x, y, x2, y2);
 	}
 
