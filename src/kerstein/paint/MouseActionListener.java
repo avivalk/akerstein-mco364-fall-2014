@@ -3,12 +3,15 @@ package kerstein.paint;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
-public class MouseActionListener implements MouseMotionListener, MouseListener {
+public class MouseActionListener implements MouseMotionListener, MouseListener ,MouseWheelListener{
 
 	private Canvas canvas;
 	int sx;
 	int sy;
+	int strokeWidth=7;
 	boolean onDrag;
 
 	public MouseActionListener(Canvas canvas) {
@@ -21,7 +24,7 @@ public class MouseActionListener implements MouseMotionListener, MouseListener {
 		if (onDrag) {
 			int x = e.getX();
 			int y = e.getY();
-			canvas.setLine(sx, sy, x, y);
+			canvas.setLine(sx, sy, x, y, strokeWidth);
 			canvas.repaint();
 		}
 		onDrag = true;
@@ -62,5 +65,11 @@ public class MouseActionListener implements MouseMotionListener, MouseListener {
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e){
+	strokeWidth+=e.getUnitsToScroll();
+	
+}
 
 }

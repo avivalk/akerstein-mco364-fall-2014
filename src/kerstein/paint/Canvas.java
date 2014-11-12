@@ -16,17 +16,25 @@ public class Canvas extends JComponent {
 
 	public Canvas() {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+		g= (Graphics2D) image.getGraphics();;
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 800, 600);
 	}
 
 	public void setPenColor(Color color) {
 		this.color = color;
 	}
 
-	public void setLine(int x, int y, int x2, int y2) {
-		g = (Graphics2D) image.getGraphics();
+	public void setLine(int x, int y, int x2, int y2, int width) {
 		g.setColor(color);
-		g.setStroke(new BasicStroke(7));
+		g.setStroke(new BasicStroke(width));
+
 		g.drawLine(x, y, x2, y2);
+	}
+	public void clear(){
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 800, 600);
+		repaint();
 	}
    
 	@Override

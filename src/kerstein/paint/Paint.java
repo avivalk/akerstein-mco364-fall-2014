@@ -7,16 +7,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Paint extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JButton red;
-	private JButton green;
-	private JButton blue;
+	private JButton pickColor;
+	private JButton eraser;
 	private JPanel buttonPanel;
+	private JButton clear;
+	private JColorChooser chooser;
+	private Color color;
 
 	public Paint() {
 		this.setSize(800, 600);
@@ -28,52 +32,53 @@ public class Paint extends JFrame {
 		container.setLayout(layout);
 		Canvas canvas = new Canvas();
 		add(canvas, BorderLayout.CENTER);
-		red = new JButton();
-		red.setBackground(Color.RED);
-		blue = new JButton();
-		blue.setBackground(Color.BLUE);
-		green = new JButton();
-		green.setBackground(Color.GREEN);
+		chooser = new JColorChooser();
+		pickColor = new JButton("Pick a color");
+		pickColor.addActionListener(new ColorListener("pickcolor", canvas));
+
+		add(pickColor, BorderLayout.SOUTH);
+
+		eraser = new JButton("ERASER");
+		clear = new JButton("CLEAR");
+		eraser.addActionListener(new ColorListener("eraser", canvas));
+		clear.addActionListener(new ColorListener("clear", canvas));
+
 		buttonPanel = new JPanel();
-		buttonPanel.add(red);
-		buttonPanel.add(blue);
-		buttonPanel.add(green);
+
+		buttonPanel.add(eraser);
+		buttonPanel.add(clear);
+		buttonPanel.add(pickColor);
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		MouseActionListener listener = new MouseActionListener(canvas);
 		canvas.addMouseMotionListener(listener);
-		red.addActionListener(new ColorListener("red", canvas));
-		green.addActionListener(new ColorListener("green", canvas));
-		blue.addActionListener(new ColorListener("blue", canvas));
 	}
 
 	private class ColorListener implements ActionListener {
-		private String color;
 		private Canvas canvas;
+		private String request;
 
-		public ColorListener(String color, Canvas canvas) {
-			this.color = color;
+		public ColorListener(String request, Canvas canvas) {
 			this.canvas = canvas;
+			this.request = request;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (color) {
-			case "red":
-				canvas.setPenColor(Color.RED);
+			switch (request) {
+			case "pickcolor":
+				color = JColorChooser.showDialog(null, "Pick a color", getBackground());
+				canvas.setPenColor(color);
 				break;
-			case "green":
-				canvas.setPenColor(Color.GREEN);
+			case "eraser":
+				canvas.setPenColor(Color.WHITE);
 				break;
-			case "blue":
-				canvas.setPenColor(Color.BLUE);
-				break;
-			default:
-				canvas.setPenColor(Color.BLACK);
+			case "clear":
+				canvas.clear();
 				break;
 			}
-		}
 
+		}
 	}
 
 	public static void main(String[] args) {
