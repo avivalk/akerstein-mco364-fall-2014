@@ -57,11 +57,13 @@ public class Paint extends JFrame {
 		buttonPanel.add(pickColor);
 
 		whichColor = new JLabel();
+		whichColor.setText("CURRENT COLOR");
+		whichColor.setBackground(color);
 		buttonPanel.add(whichColor);
-		
-		stroke=new JLabel("STROKE WIDTH:" +canvas.getStrokeWidth());
+
+		stroke = new JLabel("STROKE WIDTH:" + canvas.getStrokeWidth());
 		buttonPanel.add(stroke);
-		
+
 		add(buttonPanel, BorderLayout.SOUTH);
 
 		MouseActionListener listener = new MouseActionListener(canvas);
@@ -73,8 +75,8 @@ public class Paint extends JFrame {
 					newStroke = 1;
 				}
 				canvas.setStrokeWidth(newStroke);
-				stroke.setText("STROKE WIDTH:" +newStroke);
-				
+				stroke.setText("STROKE WIDTH:" + newStroke);
+
 			}
 		});
 
@@ -83,25 +85,10 @@ public class Paint extends JFrame {
 	private class ColorListener implements ActionListener {
 		private Canvas canvas;
 		private String request;
-		private Map<Color, String> colorMap;
 
 		public ColorListener(String request, Canvas canvas) {
 			this.canvas = canvas;
 			this.request = request;
-			colorMap = new HashMap<Color, String>();
-			colorMap.put(Color.BLACK, "BLACK");
-			colorMap.put(Color.BLUE, "BLUE");
-			colorMap.put(Color.CYAN, "CYAN");
-			colorMap.put(Color.DARK_GRAY, "DARK GRAY");
-			colorMap.put(Color.GRAY, "GRAY");
-			colorMap.put(Color.GREEN, "GREEN");
-			colorMap.put(Color.LIGHT_GRAY, "LIGHT GRAY");
-			colorMap.put(Color.MAGENTA, "MAGENTA");
-			colorMap.put(Color.ORANGE, "ORANGE");
-			colorMap.put(Color.PINK, "PINK");
-			colorMap.put(Color.RED, "RED");
-			colorMap.put(Color.WHITE, "WHITE");
-			colorMap.put(Color.YELLOW, "YELLOW");
 
 		}
 
@@ -112,9 +99,9 @@ public class Paint extends JFrame {
 				color = JColorChooser.showDialog(null, "Pick a color", getBackground());
 				canvas.setPenColor(color);
 				whichColor.setBackground(color);
+				whichColor.setOpaque(true);
 
-				whichColor.setText("CURRENT COLOR: " + colorMap.get(color));
-				whichColor.setBackground(color);
+				whichColor.setText("CURRENT COLOR");
 				break;
 			case "eraser":
 				canvas.setPenColor(Color.WHITE);
