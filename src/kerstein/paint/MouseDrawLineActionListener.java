@@ -4,14 +4,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class MouseActionListener implements MouseMotionListener, MouseListener {
+public class MouseDrawLineActionListener implements MouseMotionListener, MouseListener {
 
 	private Canvas canvas;
 	int sx;
 	int sy;
 	boolean onDrag;
 
-	public MouseActionListener(Canvas canvas) {
+	public MouseDrawLineActionListener(Canvas canvas) {
 		this.canvas = canvas;
 		onDrag = false;
 	}

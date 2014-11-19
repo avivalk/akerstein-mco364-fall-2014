@@ -28,6 +28,7 @@ public class Paint extends JFrame {
 	private JLabel whichColor;
 	private JLabel stroke;
 	private Canvas canvas;
+	public JButton drawRectangle;
 
 	public Paint() {
 		this.setSize(800, 600);
@@ -55,10 +56,15 @@ public class Paint extends JFrame {
 		buttonPanel.add(eraser);
 		buttonPanel.add(clear);
 		buttonPanel.add(pickColor);
+		drawRectangle = new JButton("Draw a Rectangle");
+		drawRectangle.addActionListener(new ColorListener("drawrectangle", canvas));
+		buttonPanel.add(drawRectangle);
 
 		whichColor = new JLabel();
 		whichColor.setText("CURRENT COLOR");
-		whichColor.setBackground(color);
+		whichColor.setBackground(Color.BLACK);
+		whichColor.setOpaque(true);
+
 		buttonPanel.add(whichColor);
 
 		stroke = new JLabel("STROKE WIDTH:" + canvas.getStrokeWidth());
@@ -66,7 +72,7 @@ public class Paint extends JFrame {
 
 		add(buttonPanel, BorderLayout.SOUTH);
 
-		MouseActionListener listener = new MouseActionListener(canvas);
+		MouseDrawLineActionListener listener = new MouseDrawLineActionListener(canvas);
 		canvas.addMouseMotionListener(listener);
 		canvas.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
@@ -100,7 +106,6 @@ public class Paint extends JFrame {
 				canvas.setPenColor(color);
 				whichColor.setBackground(color);
 				whichColor.setOpaque(true);
-
 				whichColor.setText("CURRENT COLOR");
 				break;
 			case "eraser":
@@ -108,6 +113,10 @@ public class Paint extends JFrame {
 				break;
 			case "clear":
 				canvas.clear();
+				break;
+			case "drawrectangle":
+				MouseDrawRectangleListener listen = new MouseDrawRectangleListener();
+				canvas.addMouseMotionListener(listen);
 				break;
 			}
 

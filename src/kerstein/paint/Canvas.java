@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 
 public class Canvas extends JComponent {
 	private Color color = Color.BLACK;
@@ -25,8 +24,9 @@ public class Canvas extends JComponent {
 	public int getStrokeWidth() {
 		return strokeWidth;
 	}
-	public void setStrokeWidth(int width){
-		this.strokeWidth=width;
+
+	public void setStrokeWidth(int width) {
+		this.strokeWidth = width;
 	}
 
 	public Color getColor() {
@@ -39,7 +39,8 @@ public class Canvas extends JComponent {
 
 	public void setLine(int x, int y, int x2, int y2) {
 		g.setColor(color);
-		g.setStroke(new BasicStroke(getStrokeWidth()));
+		BasicStroke basic=new BasicStroke(getStrokeWidth(),BasicStroke.CAP_ROUND,BasicStroke.JOIN_MITER);
+		g.setStroke(basic);
 		g.drawLine(x, y, x2, y2);
 	}
 
