@@ -3,12 +3,11 @@ package kerstein.paint;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -28,7 +27,9 @@ public class Paint extends JFrame {
 	private JLabel whichColor;
 	private JLabel stroke;
 	private Canvas canvas;
-	public JButton drawRectangle;
+	private JButton drawRectangle;
+	private JButton drawLine;
+	private JPanel shapesPanel;
 
 	public Paint() {
 		this.setSize(800, 600);
@@ -40,25 +41,29 @@ public class Paint extends JFrame {
 		container.setLayout(layout);
 		canvas = new Canvas();
 		add(canvas, BorderLayout.CENTER);
+		
+		MouseDrawLineActionListener lineListener= new MouseDrawLineActionListener(canvas);
+		MouseDrawRectangleListener rectListen = new MouseDrawRectangleListener(canvas);
+		
+		
 		chooser = new JColorChooser();
 		pickColor = new JButton("Pick a color");
-		pickColor.addActionListener(new ColorListener("pickcolor", canvas));
+		pickColor.addActionListener(new ButtonListener("pickcolor", canvas,lineListener,rectListen));
 
 		add(pickColor, BorderLayout.SOUTH);
 
 		eraser = new JButton("ERASER");
 		clear = new JButton("CLEAR");
-		eraser.addActionListener(new ColorListener("eraser", canvas));
-		clear.addActionListener(new ColorListener("clear", canvas));
+		eraser.addActionListener(new ButtonListener("eraser", canvas,lineListener,rectListen));
+		clear.addActionListener(new ButtonListener("clear", canvas,lineListener,rectListen));
 
 		buttonPanel = new JPanel();
 
 		buttonPanel.add(eraser);
 		buttonPanel.add(clear);
 		buttonPanel.add(pickColor);
-		drawRectangle = new JButton("Draw a Rectangle");
-		drawRectangle.addActionListener(new ColorListener("drawrectangle", canvas));
-		buttonPanel.add(drawRectangle);
+		
+		
 
 		whichColor = new JLabel();
 		whichColor.setText("CURRENT COLOR");
@@ -71,9 +76,20 @@ public class Paint extends JFrame {
 		buttonPanel.add(stroke);
 
 		add(buttonPanel, BorderLayout.SOUTH);
+		
+		shapesPanel=new JPanel();
+		shapesPanel.setLayout(new GridLayout(5,1));
+		
+		drawRectangle = new JButton("Draw a Rectangle");
+		drawRectangle.addActionListener(new ButtonListener("drawrectangle", canvas,lineListener,rectListen));
+		shapesPanel.add(drawRectangle);
+		
+		drawLine=new JButton("Draw A Line");
+		drawLine.addActionListener(new ButtonListener("drawline", canvas,lineListener,rectListen));
+		shapesPanel.add(drawLine);
 
-		MouseDrawLineActionListener listener = new MouseDrawLineActionListener(canvas);
-		canvas.addMouseMotionListener(listener);
+       add(shapesPanel,BorderLayout.EAST);
+		
 		canvas.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int newStroke = (canvas.getStrokeWidth() + (e.getUnitsToScroll() * (-1)));
@@ -88,13 +104,18 @@ public class Paint extends JFrame {
 
 	}
 
-	private class ColorListener implements ActionListener {
+	private class ButtonListener implements ActionListener {
 		private Canvas canvas;
 		private String request;
+		MouseDrawLineActionListener lineListener ;
+		MouseDrawRectangleListener rectListen;
 
-		public ColorListener(String request, Canvas canvas) {
+		public ButtonListener(String request, Canvas canvas,MouseDrawLineActionListener lineListener, MouseDrawRectangleListener rectListen) {
 			this.canvas = canvas;
 			this.request = request;
+			this.lineListener=lineListener;
+			this.rectListen=rectListen;
+		
 
 		}
 
@@ -114,10 +135,16 @@ public class Paint extends JFrame {
 			case "clear":
 				canvas.clear();
 				break;
-			case "drawrectangle":
-				MouseDrawRectangleListener listen = new MouseDrawRectangleListener();
-				canvas.addMouseMotionListener(listen);
+			case"drawline":
+				canvas.removeMouseMotionListener(rectListen);
+				canvas.removeMouseListener(rectListen);
+				canvas.addMouseMotionListener(lineListener);
 				break;
+			case "drawrectangle":
+				canvas.removeMouseMotionListener(lineListener);
+				canvas.addMouseMotionListener(rectListen);
+				break;
+				
 			}
 
 		}

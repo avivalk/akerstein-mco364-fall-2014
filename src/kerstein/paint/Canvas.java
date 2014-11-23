@@ -36,6 +36,9 @@ public class Canvas extends JComponent {
 	public void setPenColor(Color color) {
 		this.color = color;
 	}
+	public BufferedImage getImage(){
+		return image;
+	}
 
 	public void setLine(int x, int y, int x2, int y2) {
 		g.setColor(color);
@@ -49,6 +52,20 @@ public class Canvas extends JComponent {
 		g.fillRect(0, 0, 800, 600);
 		repaint();
 	}
+	public void drawRectangle(int startX,int startY,int currentX,int currentY,boolean dragMode)
+	{		int beginX, beginY, width, height;
+		if (dragMode == true) {
+			beginX = Math.min(startX, currentX);
+			beginY = Math.min(startY, currentY);
+			width = Math.abs(currentX - startX);
+			height = Math.abs(currentY - startY);
+
+			g.drawRect(beginX, beginY, width, height);
+			repaint();
+			
+		}
+		}
+	
 
 	@Override
 	protected void paintComponent(Graphics g) {
