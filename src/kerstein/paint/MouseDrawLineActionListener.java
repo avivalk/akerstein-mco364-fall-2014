@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class MouseDrawLineActionListener implements MouseMotionListener, MouseListener {
+public class MouseDrawLineActionListener implements MouseMotionListener {
 
 	private Canvas canvas;
 	int sx;
@@ -35,32 +35,6 @@ public class MouseDrawLineActionListener implements MouseMotionListener, MouseLi
 		if (onDrag) {
 			onDrag = false;
 		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 }
