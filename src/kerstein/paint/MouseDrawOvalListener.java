@@ -4,11 +4,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class MouseDrawRectangleListener implements MouseMotionListener, MouseListener {
+public class MouseDrawOvalListener implements MouseMotionListener, MouseListener {
 	private Canvas canvas;
 	private int x1, y1, x2, y2, width, height;
 
-	public MouseDrawRectangleListener(Canvas canvas) {
+	public MouseDrawOvalListener(Canvas canvas) {
 		this.canvas = canvas;
 	}
 
@@ -46,7 +46,7 @@ public class MouseDrawRectangleListener implements MouseMotionListener, MouseLis
 		y2 = e.getY();
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
-		canvas.drawRectangle(x1, y1, width, height);
+		canvas.drawAnOval(x1, y1, width, height);
 		System.out.println("released");
 		System.out.println("x1: " + x1 + " y1:" + y1);
 		System.out.println("x2: " + x2 + " y2:" + y2);

@@ -1,17 +1,16 @@
 package kerstein.paint;
 
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class MouseDrawLineActionListener implements MouseMotionListener {
+public class PencilListener implements MouseMotionListener {
 
 	private Canvas canvas;
-	int sx;
-	int sy;
-	boolean onDrag;
+	private int sx;
+	private int sy;
+	private boolean onDrag;
 
-	public MouseDrawLineActionListener(Canvas canvas) {
+	public PencilListener(Canvas canvas) {
 		this.canvas = canvas;
 		onDrag = false;
 	}
