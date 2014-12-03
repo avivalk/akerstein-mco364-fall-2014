@@ -1,12 +1,12 @@
 package kerstein.paint;
 
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
-public class MouseDrawRectangleListener implements MouseMotionListener, MouseListener {
+public class MouseDrawRectangleListener implements DrawListener {
 	private Canvas canvas;
 	private int x1, y1, x2, y2, width, height;
+	private boolean fillShape;
 
 	public MouseDrawRectangleListener(Canvas canvas) {
 		this.canvas = canvas;
@@ -35,34 +35,44 @@ public class MouseDrawRectangleListener implements MouseMotionListener, MouseLis
 	public void mousePressed(MouseEvent event) {
 		x1 = event.getX();
 		y1 = event.getY();
-
-		System.out.println("press");
-		System.out.println("x1: " + x1 + " y1:" + y1);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		x2 = e.getX();
-		y2 = e.getY();
+		x2 = e.getX() ;
+		y2 =e.getY();
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
-		canvas.drawRectangle(x1, y1, width, height);
-		System.out.println("released");
-		System.out.println("x1: " + x1 + " y1:" + y1);
-		System.out.println("x2: " + x2 + " y2:" + y2);
-
+		if (fillShape) {
+			canvas.getGraphicsPen().fillRect((Math.min(x1,x2)),(Math.min(y1,y2)), width, height);
+		} else {
+			canvas.getGraphicsPen().drawRect((Math.min(x1,x2)),(Math.min(y1,y2)), width, height);
+		}
+		canvas.repaint();
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		x2 = e.getX();
-		y2 = e.getY();
-		width = x2 - x1;
-		height = y2 - y1;
+		x2 =e.getX();
+		y2 =e.getY();
+		width = Math.abs(x2 - x1);
+		height = Math.abs(y2 - y1);
+		canvas.repaint();
 		System.out.println("drag");
-		System.out.println("x1: " + x1 + " y1:" + y1);
-		System.out.println("x2: " + x2 + " y2:" + y2);
+	}
 
+	@Override
+	public void drawPreview(Graphics2D g) {
+		if (fillShape) {
+			g.fillRect((Math.min(x1,x2)),(Math.min( y1,y2)), width, height);
+		} else {
+			g.drawRect((Math.min(x1,x2)),(Math.min( y1,y2)), width, height);
+		}
+
+	}
+
+	public void setFillShape(boolean fillShape) {
+		this.fillShape = fillShape;
 	}
 
 }

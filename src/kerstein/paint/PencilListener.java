@@ -1,13 +1,15 @@
 package kerstein.paint;
 
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
-public class PencilListener implements MouseMotionListener {
+public class PencilListener implements  DrawListener {
 
 	private Canvas canvas;
 	private int sx;
 	private int sy;
+	private int x;
+	private int y;
 	private boolean onDrag;
 
 	public PencilListener(Canvas canvas) {
@@ -18,9 +20,9 @@ public class PencilListener implements MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (onDrag) {
-			int x = e.getX();
-			int y = e.getY();
-			canvas.setLine(sx, sy, x, y);
+			x = e.getX();
+			y = e.getY();
+			canvas.getGraphicsPen().drawLine(sx, sy, x, y);
 			canvas.repaint();
 		}
 		onDrag = true;
@@ -34,6 +36,42 @@ public class PencilListener implements MouseMotionListener {
 		if (onDrag) {
 			onDrag = false;
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void drawPreview(Graphics2D g) {
+		canvas.getGraphicsPen().drawLine(sx, sy, x, y);
+
 	}
 
 }

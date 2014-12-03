@@ -13,7 +13,8 @@ public class Canvas extends JComponent {
 	private Graphics2D g;
 	private BufferedImage image;
 	private int strokeWidth;
-	private boolean fillShape;
+	private DrawListener listener;
+	private boolean clearing;
 
 	public Canvas() {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
@@ -21,11 +22,23 @@ public class Canvas extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		g.setColor(Color.BLACK);
-		fillShape = false;
+	}
+
+	public void setDrawListener(DrawListener dl){
+		this.removeMouseMotionListener(listener);
+		this.removeMouseListener(listener);
+		this.addMouseMotionListener(dl);
+		this.addMouseListener(dl);
+		this.listener = dl;
 	}
 
 	public int getStrokeWidth() {
 		return strokeWidth;
+	}
+
+	public Graphics2D getGraphicsPen() {
+		return g;
+
 	}
 
 	public void setStrokeWidth(int width) {
@@ -47,36 +60,10 @@ public class Canvas extends JComponent {
 		return image;
 	}
 
-	public void setLine(int x, int y, int x2, int y2) {
-		g.drawLine(x, y, x2, y2);
-		repaint();
-	}
-
-	public void setFillShape(boolean fillShape) {
-		this.fillShape = fillShape;
-	}
-
 	public void clear() {
+		clearing=true;
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
-		repaint();
-	}
-
-	public void drawRectangle(int x1, int y1, int width, int height) {
-		if (fillShape) {
-			g.fillRect(x1, y1, width, width);
-		} else {
-			g.drawRect(x1, y1, width, height);
-		}
-		repaint();
-	}
-
-	public void drawAnOval(int x1, int y1, int width, int height) {
-		if (fillShape) {
-			g.fillOval(x1, y1, width, width);
-		} else {
-			g.drawOval(x1, y1, width, height);
-		}
 		repaint();
 	}
 
@@ -84,5 +71,8 @@ public class Canvas extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
+		if(listener!=null&&clearing==false){
+		listener.drawPreview((Graphics2D) g);
+	}
 	}
 }

@@ -165,79 +165,33 @@ public class Paint extends JFrame {
 				break;
 			case "eraser":
 				canvas.setPenColor(Color.WHITE);
-				for (MouseListener listener : canvas.getMouseListeners()) {
-					canvas.removeMouseListener(listener);
-				}
-				for (MouseMotionListener listener : canvas.getMouseMotionListeners()) {
-					canvas.removeMouseMotionListener(listener);
-				}
-				canvas.addMouseMotionListener(lineListener);
+				canvas.setDrawListener(lineListener);
 				break;
 			case "clear":
 				canvas.clear();
 				canvas.setPenColor(color);
 				break;
 			case "pencil":
-				for (MouseListener listener : canvas.getMouseListeners()) {
-					canvas.removeMouseListener(listener);
-				}
-				for (MouseMotionListener listener : canvas.getMouseMotionListeners()) {
-					canvas.removeMouseMotionListener(listener);
-				}
-				canvas.addMouseMotionListener(lineListener);
+				canvas.setDrawListener(lineListener);
 				break;
 			case "drawrectangle":
-				for (MouseListener listener : canvas.getMouseListeners()) {
-					canvas.removeMouseListener(listener);
-				}
-				for (MouseMotionListener listener : canvas.getMouseMotionListeners()) {
-					canvas.removeMouseMotionListener(listener);
-				}
-				canvas.addMouseMotionListener(rectListen);
-				canvas.addMouseListener(rectListen);
-				canvas.setFillShape(false);
+				canvas.setDrawListener(rectListen);
+				rectListen.setFillShape(false);
 				break;
 			case "drawfillrectangle":
-				for (MouseListener listener : canvas.getMouseListeners()) {
-					canvas.removeMouseListener(listener);
-				}
-				for (MouseMotionListener listener : canvas.getMouseMotionListeners()) {
-					canvas.removeMouseMotionListener(listener);
-				}
-				canvas.addMouseMotionListener(rectListen);
-				canvas.addMouseListener(rectListen);
-				canvas.setFillShape(true);
+				canvas.setDrawListener(rectListen);
+				rectListen.setFillShape(true);
 				break;
 			case "drawoval":
-				for (MouseListener listener : canvas.getMouseListeners()) {
-					canvas.removeMouseListener(listener);
-				}
-				for (MouseMotionListener listener : canvas.getMouseMotionListeners()) {
-					canvas.removeMouseMotionListener(listener);
-				}
-				canvas.addMouseMotionListener(ovalListen);
-				canvas.addMouseListener(ovalListen);
-				canvas.setFillShape(false);
+				canvas.setDrawListener(ovalListen);
+				ovalListen.setFillShape(false);
 				break;
-			case "drawfulloval":
-				for (MouseListener listener : canvas.getMouseListeners()) {
-					canvas.removeMouseListener(listener);
-				}
-				for (MouseMotionListener listener : canvas.getMouseMotionListeners()) {
-					canvas.removeMouseMotionListener(listener);
-				}
-				canvas.addMouseMotionListener(ovalListen);
-				canvas.addMouseListener(ovalListen);
-				canvas.setFillShape(true);
+			case "drawfulloval":				
+				canvas.setDrawListener(ovalListen);
+				ovalListen.setFillShape(true);
 				break;
 			case "drawline":
-				for (MouseListener listener : canvas.getMouseListeners()) {
-					canvas.removeMouseListener(listener);
-				}
-				for (MouseMotionListener listener : canvas.getMouseMotionListeners()) {
-					canvas.removeMouseMotionListener(listener);
-				}
-				canvas.addMouseListener(lineListen);
+				canvas.setDrawListener(lineListen);
 				break;
 
 			}
