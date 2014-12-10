@@ -1,4 +1,4 @@
-package paint.message;
+package kerstein.paint.message;
 
 
 public class MessageFactory {

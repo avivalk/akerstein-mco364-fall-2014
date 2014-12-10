@@ -1,4 +1,4 @@
-package paint.message;
+package kerstein.paint.message;
 
 import java.awt.Graphics2D;
 
