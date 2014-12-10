@@ -35,8 +35,6 @@ public class MouseDrawOvalListener implements DrawListener {
 	public void mousePressed(MouseEvent event) {
 		x1 = event.getX();
 		y1 = event.getY();
-
-		System.out.println("press");
 		}
 
 	@Override

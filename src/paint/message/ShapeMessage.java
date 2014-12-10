@@ -1,6 +1,8 @@
 package paint.message;
 
-public class ShapeMessage {
+import java.awt.Graphics2D;
+
+public class ShapeMessage implements PaintMessage{
 	private int x;
 	private int y;
 	private int strokeWidth;
@@ -79,5 +81,10 @@ public class ShapeMessage {
 		return x + " " + y + " " + strokeWidth + " " + color + " " + type + " " + width + " " + height + " " + fill
 				+ " " + "\n";
 	}
+
+	@Override
+	public void apply(Graphics2D g) {
+switch(type){}
+}
 
 }

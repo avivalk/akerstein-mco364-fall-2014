@@ -169,6 +169,7 @@ public class Paint extends JFrame {
 				break;
 			case "clear":
 				canvas.clear();
+				canvas.setPenColor(color);
 				break;
 			case "pencil":
 				canvas.setDrawListener(lineListener);

@@ -1,7 +1,9 @@
 package paint.message;
 
+import java.awt.Graphics2D;
 
-public class BucketFillMessage {
+
+public class BucketFillMessage implements PaintMessage{
 	private int x;
 	private int y;
 	private int color;
@@ -34,5 +36,11 @@ public class BucketFillMessage {
 	public String toString() {
 		return x + " " + y + " " + color + "\n";
 
+	}
+
+	@Override
+	public void apply(Graphics2D g) {
+		// TODO Auto-generated method stub
+		
 	}
 }

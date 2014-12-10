@@ -2,9 +2,8 @@ package paint.message;
 
 import java.awt.Graphics2D;
 
-public class PaintMessage {
+public interface PaintMessage {
 	
-	public void apply(Graphics2D g){
-	}
+	public void apply(Graphics2D g);
 
 }

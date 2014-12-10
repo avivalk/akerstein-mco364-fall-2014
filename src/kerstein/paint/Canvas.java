@@ -53,6 +53,7 @@ public class Canvas extends JComponent {
 	}
 
 	public void setPenColor(Color color) {
+		this.color=color;
 		g.setColor(color);
 	}
 
@@ -61,7 +62,6 @@ public class Canvas extends JComponent {
 	}
 
 	public void clear() {
-		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 		g = (Graphics2D) image.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
@@ -74,6 +74,7 @@ public class Canvas extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
+		g.setColor(color);
 		listener.drawPreview((Graphics2D) g);
 	}
 }
