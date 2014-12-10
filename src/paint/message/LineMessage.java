@@ -1,6 +1,8 @@
 package paint.message;
 
-public class LineMessage {
+import java.awt.Graphics2D;
+
+public class LineMessage implements PaintMessage{
 	private int x1;
 	private int y1;
 	private int x2;
@@ -46,5 +48,10 @@ public class LineMessage {
 	@Override
 	public String toString() {
 		return x1+" "+y2+" "+x2+" "+y2 +" "+strokeWidth+" "+ color +"\n";
+	}
+	@Override
+	public void apply(Graphics2D g) {
+		// TODO Auto-generated method stub
+		
 	}
 }
