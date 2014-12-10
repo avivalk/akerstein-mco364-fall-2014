@@ -169,7 +169,6 @@ public class Paint extends JFrame {
 				break;
 			case "clear":
 				canvas.clear();
-				canvas.setPenColor(color);
 				break;
 			case "pencil":
 				canvas.setDrawListener(lineListener);
@@ -186,7 +185,7 @@ public class Paint extends JFrame {
 				canvas.setDrawListener(ovalListen);
 				ovalListen.setFillShape(false);
 				break;
-			case "drawfulloval":				
+			case "drawfulloval":
 				canvas.setDrawListener(ovalListen);
 				ovalListen.setFillShape(true);
 				break;
@@ -196,7 +195,8 @@ public class Paint extends JFrame {
 
 			}
 
-		}
+			
+	}
 	}
 
 	public static void main(String[] args) {

@@ -31,7 +31,6 @@ public class MouseDrawLineListener implements DrawListener {
 	public void mousePressed(MouseEvent event) {
 		x1 = event.getX();
 		y1 = event.getY();
-		System.out.println("press");
 	}
 
 	@Override
@@ -39,7 +38,6 @@ public class MouseDrawLineListener implements DrawListener {
 		x2 = e.getX();
 		y2 = e.getY();
 		canvas.getGraphicsPen().drawLine(x1, y1, x2, y2);
-		System.out.println("released");
 	}
 
 	@Override

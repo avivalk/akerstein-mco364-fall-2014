@@ -39,34 +39,33 @@ public class MouseDrawRectangleListener implements DrawListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		x2 = e.getX() ;
-		y2 =e.getY();
+		x2 = e.getX();
+		y2 = e.getY();
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
 		if (fillShape) {
-			canvas.getGraphicsPen().fillRect((Math.min(x1,x2)),(Math.min(y1,y2)), width, height);
+			canvas.getGraphicsPen().fillRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		} else {
-			canvas.getGraphicsPen().drawRect((Math.min(x1,x2)),(Math.min(y1,y2)), width, height);
+			canvas.getGraphicsPen().drawRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		}
 		canvas.repaint();
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		x2 =e.getX();
-		y2 =e.getY();
+		x2 = e.getX();
+		y2 = e.getY();
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
 		canvas.repaint();
-		System.out.println("drag");
 	}
 
 	@Override
 	public void drawPreview(Graphics2D g) {
 		if (fillShape) {
-			g.fillRect((Math.min(x1,x2)),(Math.min( y1,y2)), width, height);
+			g.fillRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		} else {
-			g.drawRect((Math.min(x1,x2)),(Math.min( y1,y2)), width, height);
+			g.drawRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		}
 
 	}

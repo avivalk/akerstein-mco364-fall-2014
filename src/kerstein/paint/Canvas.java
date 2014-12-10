@@ -14,7 +14,6 @@ public class Canvas extends JComponent {
 	private BufferedImage image;
 	private int strokeWidth;
 	private DrawListener listener;
-	private boolean clearing;
 
 	public Canvas() {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
@@ -22,9 +21,10 @@ public class Canvas extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		g.setColor(Color.BLACK);
+		setDrawListener(new PencilListener(this));
 	}
 
-	public void setDrawListener(DrawListener dl){
+	public void setDrawListener(DrawListener dl) {
 		this.removeMouseMotionListener(listener);
 		this.removeMouseListener(listener);
 		this.addMouseMotionListener(dl);
@@ -61,9 +61,12 @@ public class Canvas extends JComponent {
 	}
 
 	public void clear() {
-		clearing=true;
+		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+		g = (Graphics2D) image.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
+		g.setColor(Color.BLACK);
+		setDrawListener(new PencilListener(this));
 		repaint();
 	}
 
@@ -71,8 +74,6 @@ public class Canvas extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
-		if(listener!=null&&clearing==false){
 		listener.drawPreview((Graphics2D) g);
-	}
 	}
 }

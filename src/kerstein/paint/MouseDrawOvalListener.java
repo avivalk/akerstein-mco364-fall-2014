@@ -50,10 +50,7 @@ public class MouseDrawOvalListener implements DrawListener {
 		} else {
 			canvas.getGraphicsPen().drawOval((Math.min(x1,x2)),(Math.min(y1,y2)),width, height);
 		}
-		canvas.repaint();
-		System.out.println("released");
-		
-
+		canvas.repaint();		
 	}
 
 	@Override
@@ -63,7 +60,6 @@ public class MouseDrawOvalListener implements DrawListener {
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
 		canvas.repaint();
-		System.out.println("drag");
 	
 
 	}
