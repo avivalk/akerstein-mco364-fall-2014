@@ -2,7 +2,7 @@ package kerstein.paint.message;
 
 import java.awt.Graphics2D;
 
-public class ShapeMessage implements PaintMessage{
+public class ShapeMessage implements PaintMessage {
 	private int x;
 	private int y;
 	private int strokeWidth;
@@ -84,7 +84,20 @@ public class ShapeMessage implements PaintMessage{
 
 	@Override
 	public void apply(Graphics2D g) {
-switch(type){}
-}
+		switch (type) {
+		case "rectangle":
+			if (fill) {
+				g.fillRect(x, y, width, height);
+			} else {
+				g.drawRect(x, y, width, height);
+			}
+		case "oval":
+			if (fill) {
+				g.fillOval(x, y, width, height);
+			} else {
+				g.drawOval(x, y, width, height);
+			}
+		}
+	}
 
 }

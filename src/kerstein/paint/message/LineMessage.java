@@ -51,7 +51,6 @@ public class LineMessage implements PaintMessage{
 	}
 	@Override
 	public void apply(Graphics2D g) {
-		// TODO Auto-generated method stub
-		
+		g.drawLine(x1, y1, x2, y2);
 	}
 }

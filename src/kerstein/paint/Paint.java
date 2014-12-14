@@ -36,6 +36,7 @@ public class Paint extends JFrame {
 	private JButton drawOval;
 	private JButton fillOval;
 	private JButton drawLine;
+	private JButton bucketFill;
 
 	public Paint() {
 		this.setSize(800, 600);
@@ -52,19 +53,21 @@ public class Paint extends JFrame {
 		MouseDrawRectangleListener rectListen = new MouseDrawRectangleListener(canvas);
 		MouseDrawOvalListener ovalListen = new MouseDrawOvalListener(canvas);
 		MouseDrawLineListener lineListen = new MouseDrawLineListener(canvas);
+		BucketFillListener bucketListen = new BucketFillListener(canvas);
 
 		chooser = new JColorChooser();
 		pickColor = new JButton("Pick a color");
 		pickColor.addActionListener(new ButtonListener("pickcolor", canvas, pencilListener, rectListen, ovalListen,
-				lineListen));
+				lineListen, bucketListen));
 
 		add(pickColor, BorderLayout.SOUTH);
 
 		eraser = new JButton("ERASER");
 		clear = new JButton("CLEAR");
 		eraser.addActionListener(new ButtonListener("eraser", canvas, pencilListener, rectListen, ovalListen,
-				lineListen));
-		clear.addActionListener(new ButtonListener("clear", canvas, pencilListener, rectListen, ovalListen, lineListen));
+				lineListen, bucketListen));
+		clear.addActionListener(new ButtonListener("clear", canvas, pencilListener, rectListen, ovalListen, lineListen,
+				bucketListen));
 
 		buttonPanel = new JPanel();
 
@@ -89,34 +92,38 @@ public class Paint extends JFrame {
 
 		pencil = new JButton("Pen");
 		pencil.addActionListener(new ButtonListener("pencil", canvas, pencilListener, rectListen, ovalListen,
-				lineListen));
+				lineListen, bucketListen));
 		shapesPanel.add(pencil);
 
 		drawRectangle = new JButton("Draw a Rectangle OutLine");
 		drawRectangle.addActionListener(new ButtonListener("drawrectangle", canvas, pencilListener, rectListen,
-				ovalListen, lineListen));
+				ovalListen, lineListen, bucketListen));
 		shapesPanel.add(drawRectangle);
 
 		fillRect = new JButton("Draw a Full Rectangle");
 		fillRect.addActionListener(new ButtonListener("drawfillrectangle", canvas, pencilListener, rectListen,
-				ovalListen, lineListen));
+				ovalListen, lineListen, bucketListen));
 		shapesPanel.add(fillRect);
 
 		drawOval = new JButton("Draw an Oval Outline");
 		drawOval.addActionListener(new ButtonListener("drawoval", canvas, pencilListener, rectListen, ovalListen,
-				lineListen));
+				lineListen, bucketListen));
 		shapesPanel.add(drawOval);
 
 		fillOval = new JButton("Draw a Full Oval");
 		fillOval.addActionListener(new ButtonListener("drawfulloval", canvas, pencilListener, rectListen, ovalListen,
-				lineListen));
+				lineListen, bucketListen));
 		shapesPanel.add(fillOval);
 
 		drawLine = new JButton("Draw a Line");
 		drawLine.addActionListener(new ButtonListener("drawline", canvas, pencilListener, rectListen, ovalListen,
-				lineListen));
+				lineListen, bucketListen));
 		shapesPanel.add(drawLine);
 
+		bucketFill = new JButton("Bucket Fill");
+		bucketFill.addActionListener(new ButtonListener("bucket", canvas, pencilListener, rectListen, ovalListen,
+				lineListen, bucketListen));
+		shapesPanel.add(bucketFill);
 		add(shapesPanel, BorderLayout.NORTH);
 
 		canvas.addMouseWheelListener(new MouseWheelListener() {
@@ -140,16 +147,18 @@ public class Paint extends JFrame {
 		private MouseDrawRectangleListener rectListen;
 		private MouseDrawOvalListener ovalListen;
 		private MouseDrawLineListener lineListen;
+		private BucketFillListener bucketListen;
 
 		public ButtonListener(String request, Canvas canvas, PencilListener lineListener,
 				MouseDrawRectangleListener rectListen, MouseDrawOvalListener ovalListen,
-				MouseDrawLineListener lineListen) {
+				MouseDrawLineListener lineListen, BucketFillListener bucketListen) {
 			this.canvas = canvas;
 			this.request = request;
 			this.lineListener = lineListener;
 			this.rectListen = rectListen;
 			this.ovalListen = ovalListen;
 			this.lineListen = lineListen;
+			this.bucketListen = bucketListen;
 
 		}
 
@@ -172,6 +181,7 @@ public class Paint extends JFrame {
 				canvas.setPenColor(color);
 				break;
 			case "pencil":
+				
 				canvas.setDrawListener(lineListener);
 				break;
 			case "drawrectangle":
@@ -193,11 +203,13 @@ public class Paint extends JFrame {
 			case "drawline":
 				canvas.setDrawListener(lineListen);
 				break;
-
+			case "bucket":
+				canvas.setPenColor(color);
+				canvas.setDrawListener(bucketListen);
+				break;
 			}
 
-			
-	}
+		}
 	}
 
 	public static void main(String[] args) {
