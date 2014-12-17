@@ -10,6 +10,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -37,16 +39,22 @@ public class Paint extends JFrame {
 	private JButton fillOval;
 	private JButton drawLine;
 	private JButton bucketFill;
+	private Socket socket;
 
 	public Paint() {
 		this.setSize(800, 600);
 		this.setTitle("PAINT");
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		try {
+			socket = new Socket("192.168.117.107", 3773);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		BorderLayout layout = new BorderLayout();
 		Container container = getContentPane();
 		container.setLayout(layout);
-		canvas = new Canvas();
+		canvas = new Canvas(socket);
 		add(canvas, BorderLayout.CENTER);
 
 		PencilListener pencilListener = new PencilListener(canvas);

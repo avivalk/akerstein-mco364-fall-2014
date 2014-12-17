@@ -3,6 +3,8 @@ package kerstein.paint;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import kerstein.paint.message.LineMessage;
+import kerstein.paint.message.SendPaintMessage;
 
 public class MouseDrawLineListener implements DrawListener {
 	private Canvas canvas;
@@ -37,26 +39,29 @@ public class MouseDrawLineListener implements DrawListener {
 	public void mouseReleased(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
-		canvas.getGraphicsPen().drawLine(x1, y1, x2, y2);
+		LineMessage message = new LineMessage(x1, y1, x2, y2, canvas.getStrokeWidth(), canvas.getColor().getRGB());
+		SendPaintMessage paintMessage = new SendPaintMessage(message.toString(), canvas.getSocket());
+		paintMessage.sendMessage();
+		//canvas.getGraphicsPen().drawLine(x1, y1, x2, y2);
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent event) {
 		x2 = event.getX();
 		y2 = event.getY();
-         canvas.repaint();		
+		canvas.repaint();
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void drawPreview(Graphics2D g) {
 		g.drawLine(x1, y1, x2, y2);
-		
+
 	}
 
 }

@@ -78,7 +78,7 @@ public class ShapeMessage implements PaintMessage {
 
 	@Override
 	public String toString() {
-		return x + " " + y + " " + strokeWidth + " " + color + " " + type + " " + width + " " + height + " " + fill
+		return type + x + " " + y + " " + strokeWidth + " " + color + " "+ width + " " + height + " " + fill
 				+ " " + "\n";
 	}
 

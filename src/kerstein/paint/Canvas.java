@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.net.Socket;
 
 import javax.swing.JComponent;
 
@@ -14,14 +15,16 @@ public class Canvas extends JComponent {
 	private BufferedImage image;
 	private int strokeWidth;
 	private DrawListener listener;
+	private Socket socket;
 
-	public Canvas() {
+	public Canvas(Socket socket) {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 		g = (Graphics2D) image.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
-		g.setColor(Color.BLACK);
+		setPenColor(Color.BLACK);
 		setDrawListener(new PencilListener(this));
+		this.socket=socket;
 	}
 
 	public void setDrawListener(DrawListener dl) {
@@ -74,7 +77,11 @@ public class Canvas extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
-		g.setColor(this.color);
+		setPenColor(this.color);
 		listener.drawPreview((Graphics2D) g);
+	}
+
+	public Socket getSocket() {
+		return socket;
 	}
 }

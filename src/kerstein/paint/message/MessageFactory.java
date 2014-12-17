@@ -3,9 +3,9 @@ package kerstein.paint.message;
 
 public class MessageFactory {
 
-	private PaintMessage message;
+	private String message;
 	
-	public PaintMessage getMessage(PaintMessage message){
+	public String getMessage(String message){
 		return message;
 	}
 }
