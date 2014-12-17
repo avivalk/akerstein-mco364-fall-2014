@@ -1,30 +1,29 @@
 package kerstein.paint;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BucketFillListener implements DrawListener {
 
 	private int x;
 	private int y;
-	private Canvas canvas;	
-	public BucketFillListener(Canvas canvas){
-		this.canvas=canvas;
+	private Canvas canvas;
+
+	public BucketFillListener(Canvas canvas) {
+		this.canvas = canvas;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		x = e.getX();
-		y=e.getY();
-		int currentRGB=canvas.getImage().getRGB(x, y);
-		Color replacementColor=canvas.getColor();
-	    Color targetColor=new Color(currentRGB, true);
-	    floodFill(x,y,targetColor, replacementColor);
-	    canvas.repaint();
-	    System.out.println("click");
-}
+		y = e.getY();
+		int currentRGB = canvas.getImage().getRGB(x, y);
+		int replacementRGB = canvas.getColor().getRGB();
+		floodFill(x, y, currentRGB, replacementRGB);
+	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
@@ -33,13 +32,12 @@ public class BucketFillListener implements DrawListener {
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-	
+
 	}
 
 	@Override
@@ -48,33 +46,50 @@ public class BucketFillListener implements DrawListener {
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void drawPreview(Graphics2D g) {
-		
-	}
-	public void floodFill(int x, int y, Color targetColor,Color replacementColor) {
 
-	    if (canvas.getImage().getRGB(x, y) != targetColor.getRGB()) return;
-         if(canvas.getImage().getRGB(x, y)!=replacementColor.getRGB()){
-	    canvas.getImage().setRGB(x, y, replacementColor.getRGB());
-	    canvas.getGraphicsPen().fillOval(x,y,1,1);
-	    floodFill(x - 1, y, targetColor, replacementColor);
-	    floodFill(x + 1, y, targetColor, replacementColor);
-	    floodFill(x, y - 1, targetColor, replacementColor);
-	    floodFill(x, y + 1, targetColor, replacementColor);
-	    return;
-         }
-	}
 	}
 
+	public void floodFill(int x, int y, int targetColor, int replacementColor) {
+		Queue<Point> queue = new LinkedList<Point>();
+		boolean[][] filled = new boolean[800][600];
+		queue.add(new Point(x, y));
 
+		while (!queue.isEmpty()) {
+			Point p = queue.remove();
+			int pixelColor = canvas.getImage().getRGB(p.x, p.y);
+			if (pixelColor != replacementColor && pixelColor == targetColor) {
+				canvas.getImage().setRGB(p.x, p.y, replacementColor);
+				if (!filled[p.x - 1][p.y]) {
+					queue.add(new Point(p.x - 1, p.y));
+					filled[p.x - 1][p.y] = true;
+				}
+				if (!filled[p.x + 1][p.y]) {
+					queue.add(new Point(p.x + 1, p.y));
+					filled[p.x + 1][p.y] = true;
+				}
+				if (!filled[p.x][p.y - 1]) {
+					queue.add(new Point(p.x, p.y - 1));
+					filled[p.x][p.y - 1] = true;
+				}
+				if (!filled[p.x][p.y + 1]) {
+					queue.add(new Point(p.x, p.y + 1));
+					filled[p.x][p.y + 1] = true;
+				}
+				canvas.repaint();
+
+			}
+
+		}
+	}
+
+}

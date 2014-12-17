@@ -53,7 +53,7 @@ public class Canvas extends JComponent {
 	}
 
 	public void setPenColor(Color color) {
-		this.color=color;
+		this.color = color;
 		g.setColor(this.color);
 	}
 
@@ -75,6 +75,7 @@ public class Canvas extends JComponent {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
 		g.setColor(this.color);
+		setStrokeWidth(this.strokeWidth);
 		listener.drawPreview((Graphics2D) g);
 	}
 }
