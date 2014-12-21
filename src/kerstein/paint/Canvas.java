@@ -10,18 +10,28 @@ import javax.swing.JComponent;
 
 public class Canvas extends JComponent {
 	private Color color;
-	private Graphics2D g;
-	private BufferedImage image;
 	private int strokeWidth;
 	private DrawListener listener;
+	private BufferedImage[] layers;
+	private int layeredSelected;
 
 	public Canvas() {
-		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		g = (Graphics2D) image.getGraphics();
+		layers=new BufferedImage[4];
+		for(int i=0; i<4; i++){
+			layers[i]=new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+		}
+		setLayerSelected(0);
+		Graphics2D g=(Graphics2D) layers[0].getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
-		g.setColor(Color.BLACK);
+		this.color=Color.BLACK;
 		setDrawListener(new PencilListener(this));
+	}
+	public void setLayerSelected(int layeredSelected){
+		this.layeredSelected=layeredSelected;
+	}
+	public int getLayeredSelected(){
+		return layeredSelected;
 	}
 
 	public void setDrawListener(DrawListener dl) {
@@ -31,20 +41,28 @@ public class Canvas extends JComponent {
 		this.addMouseListener(dl);
 		this.listener = dl;
 	}
+	public BufferedImage[] getLayers(){
+		return layers;
+	}
 
 	public int getStrokeWidth() {
 		return strokeWidth;
 	}
 
 	public Graphics2D getGraphicsPen() {
-		return g;
+		BufferedImage[]images=getLayers();
+		BufferedImage selected=getLayers()[getLayeredSelected()];
+		Graphics2D gr=(Graphics2D) selected.getGraphics();
+		gr.setColor(this.color);
+		return gr;
 
 	}
+	
 
 	public void setStrokeWidth(int width) {
 		this.strokeWidth = width;
 		BasicStroke basic = new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
-		g.setStroke(basic);
+		getGraphicsPen().setStroke(basic);
 	}
 
 	public Color getColor() {
@@ -54,26 +72,24 @@ public class Canvas extends JComponent {
 
 	public void setPenColor(Color color) {
 		this.color = color;
-		g.setColor(this.color);
 	}
 
-	public BufferedImage getImage() {
-		return image;
-	}
+	
 
 	public void clear() {
-		g = (Graphics2D) image.getGraphics();
+		Graphics2D g = (Graphics2D) getLayers()[getLayeredSelected()].getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
-		g.setColor(Color.BLACK);
-		setDrawListener(new PencilListener(this));
+		g.setColor(this.color);
 		repaint();
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, null);
+		for(int i=0; i<4; i++){
+		g.drawImage(layers[i], 0, 0, null);
+		}
 		g.setColor(this.color);
 		setStrokeWidth(this.strokeWidth);
 		listener.drawPreview((Graphics2D) g);
