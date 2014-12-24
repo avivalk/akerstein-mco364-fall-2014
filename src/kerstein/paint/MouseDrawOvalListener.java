@@ -3,6 +3,9 @@ package kerstein.paint;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import kerstein.paint.message.SendPaintMessage;
+import kerstein.paint.message.ShapeMessage;
+
 public class MouseDrawOvalListener implements DrawListener {
 	private Canvas canvas;
 	private int x1, y1, x2, y2, width, height;
@@ -10,7 +13,7 @@ public class MouseDrawOvalListener implements DrawListener {
 
 	public MouseDrawOvalListener(Canvas canvas) {
 		this.canvas = canvas;
-		}
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
@@ -35,7 +38,7 @@ public class MouseDrawOvalListener implements DrawListener {
 	public void mousePressed(MouseEvent event) {
 		x1 = event.getX();
 		y1 = event.getY();
-		}
+	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -44,11 +47,20 @@ public class MouseDrawOvalListener implements DrawListener {
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
 		if (fillShape) {
-			canvas.getGraphicsPen().fillOval((Math.min(x1,x2)),(Math.min(y1,y2)), width, height);
+			ShapeMessage fillOval = new ShapeMessage("SHAPE OVAL", x1, y1, width, height, 
+					canvas.getColor().getRGB(),canvas.getStrokeWidth(), true);
+			SendPaintMessage paintMessage = new SendPaintMessage(fillOval.toString(), canvas.getSocket());
+			paintMessage.sendMessage();
+			// canvas.getGraphicsPen().fillOval((Math.min(x1,x2)),(Math.min(y1,y2)),
+			// width, height);
 		} else {
-			canvas.getGraphicsPen().drawOval((Math.min(x1,x2)),(Math.min(y1,y2)),width, height);
+			ShapeMessage drawOval = new ShapeMessage("SHAPE OVAL", x1, y1, width, height,
+					canvas.getColor().getRGB(), canvas.getStrokeWidth(), false);
+			SendPaintMessage paintMessage = new SendPaintMessage(drawOval.toString(), canvas.getSocket());
+			paintMessage.sendMessage();
+			//canvas.getGraphicsPen().drawOval((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		}
-		canvas.repaint();		
+		canvas.repaint();
 	}
 
 	@Override
@@ -58,7 +70,6 @@ public class MouseDrawOvalListener implements DrawListener {
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
 		canvas.repaint();
-	
 
 	}
 
@@ -69,9 +80,9 @@ public class MouseDrawOvalListener implements DrawListener {
 	@Override
 	public void drawPreview(Graphics2D g) {
 		if (fillShape) {
-			g.fillOval((Math.min(x1,x2)),(Math.min(y1,y2)), width, height);
+			g.fillOval((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		} else {
-			g.drawOval((Math.min(x1,x2)),(Math.min(y1,y2)), width, height);
+			g.drawOval((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		}
 	}
 

@@ -6,8 +6,6 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
@@ -18,6 +16,9 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import kerstein.paint.message.MessageFactory;
+import kerstein.paint.message.MessageReciever;
 
 public class Paint extends JFrame {
 
@@ -134,6 +135,10 @@ public class Paint extends JFrame {
 		shapesPanel.add(bucketFill);
 		add(shapesPanel, BorderLayout.NORTH);
 
+		MessageFactory factory=new MessageFactory();
+		MessageReciever receiver=new MessageReciever(socket, factory, canvas);
+		receiver.start();
+		
 		canvas.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int newStroke = (canvas.getStrokeWidth() + (e.getUnitsToScroll() * (-1)));
@@ -189,7 +194,6 @@ public class Paint extends JFrame {
 				canvas.setPenColor(color);
 				break;
 			case "pencil":
-				
 				canvas.setDrawListener(lineListener);
 				break;
 			case "drawrectangle":

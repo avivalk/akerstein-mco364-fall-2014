@@ -1,5 +1,7 @@
 package kerstein.paint.message;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class LineMessage implements PaintMessage {
@@ -10,7 +12,7 @@ public class LineMessage implements PaintMessage {
 	private int strokeWidth;
 	private int color;
 
-	public LineMessage(int x1, int y1, int x2, int y2, int strokeWidth, int color) {
+	public LineMessage(int x1, int y1, int x2, int y2,  int strokeWidth, int color) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
@@ -69,11 +71,14 @@ public class LineMessage implements PaintMessage {
 
 	@Override
 	public String toString() {
-		return "LINE " + x1 + " " + y2 + " " + x2 + " " + y2 + " " + strokeWidth + " " + color + "\n";
+		return "LINE " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + strokeWidth + " " + color + "\n";
 	}
 
 	@Override
 	public void apply(Graphics2D g) {
+		BasicStroke basic = new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+		g.setStroke(basic);
+		g.setColor(new Color(color));
 		g.drawLine(x1, y1, x2, y2);
 	}
 }

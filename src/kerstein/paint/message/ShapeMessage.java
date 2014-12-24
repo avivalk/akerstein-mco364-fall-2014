@@ -11,6 +11,17 @@ public class ShapeMessage implements PaintMessage {
 	private int width;
 	private int height;
 	private boolean fill;
+	
+	public ShapeMessage(String type,int x, int y,  int width, int height, int strokeWidth, int color,  boolean fill) {
+		this.x = x;
+		this.y = y;
+		this.strokeWidth = strokeWidth;
+		this.color = color;
+		this.type = type;
+		this.width = width;
+		this.height = height;
+		this.fill = fill;
+	}
 
 	public int getX() {
 		return x;
@@ -78,9 +89,11 @@ public class ShapeMessage implements PaintMessage {
 
 	@Override
 	public String toString() {
-		return type + x + " " + y + " " + strokeWidth + " " + color + " "+ width + " " + height + " " + fill
+		return type + " " + x + " " + y + " " + strokeWidth + " " + color + " "+ width + " " + height + " " + fill
 				+ " " + "\n";
 	}
+
+
 
 	@Override
 	public void apply(Graphics2D g) {

@@ -39,7 +39,7 @@ public class MouseDrawLineListener implements DrawListener {
 	public void mouseReleased(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
-		LineMessage message = new LineMessage(x1, y1, x2, y2, canvas.getStrokeWidth(), canvas.getColor().getRGB());
+		LineMessage message = new LineMessage(x1, y1, x2, y2, canvas.getColor().getRGB(), canvas.getStrokeWidth());
 		SendPaintMessage paintMessage = new SendPaintMessage(message.toString(), canvas.getSocket());
 		paintMessage.sendMessage();
 		//canvas.getGraphicsPen().drawLine(x1, y1, x2, y2);
@@ -54,13 +54,11 @@ public class MouseDrawLineListener implements DrawListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void drawPreview(Graphics2D g) {
-		g.drawLine(x1, y1, x2, y2);
+		//g.drawLine(x1, y1, x2, y2);
 
 	}
 

@@ -9,6 +9,9 @@ import java.net.Socket;
 
 import javax.swing.JComponent;
 
+import kerstein.paint.message.ClearMessage;
+import kerstein.paint.message.SendPaintMessage;
+
 public class Canvas extends JComponent {
 	private Color color;
 	private Graphics2D g;
@@ -23,7 +26,7 @@ public class Canvas extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		setPenColor(Color.BLACK);
-		setDrawListener(new PencilListener(this));
+		//setDrawListener(new PencilListener(this));
 		this.socket=socket;
 	}
 
@@ -64,21 +67,26 @@ public class Canvas extends JComponent {
 		return image;
 	}
 
+
 	public void clear() {
-		g = (Graphics2D) image.getGraphics();
+		ClearMessage clear=new ClearMessage();
+	    SendPaintMessage paintMessage = new SendPaintMessage(clear.toString(), socket);
+		paintMessage.sendMessage();
+		/*g = (Graphics2D) image.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		g.setColor(Color.BLACK);
 		setDrawListener(new PencilListener(this));
 		repaint();
+		*/
 	}
-
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
 		setPenColor(this.color);
-		listener.drawPreview((Graphics2D) g);
+		//listener.drawPreview((Graphics2D) g);
 	}
 
 	public Socket getSocket() {
