@@ -76,6 +76,9 @@ public class LineMessage implements PaintMessage {
 
 	@Override
 	public void apply(Graphics2D g) {
+		if (strokeWidth < 1) {
+			strokeWidth = 1;
+		}
 		BasicStroke basic = new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
 		g.setStroke(basic);
 		g.setColor(new Color(color));

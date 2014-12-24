@@ -48,7 +48,7 @@ public class Paint extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		try {
-			socket = new Socket("192.168.117.107", 3773);
+			socket = new Socket("localhost", 3773);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
