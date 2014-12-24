@@ -185,7 +185,7 @@ public class Paint extends JFrame {
 				canvas.setDrawListener(lineListener);
 				break;
 			case "clear":
-				canvas.clear();
+				canvas.clear(canvas.getLayerSelected());
 				canvas.setPenColor(color);
 				break;
 			case "pencil":
@@ -220,6 +220,12 @@ public class Paint extends JFrame {
 					canvas.setLayerSelected(0);
 				} else if (choice.equals("Layer 2")) {
 					canvas.setLayerSelected(1);
+				}
+				else if(choice.equals("Layer 3")){
+					canvas.setLayerSelected(2);
+				}
+				else if(choice.equals("Layer 4")){
+					canvas.setLayerSelected(3);
 				}
 				break;
 

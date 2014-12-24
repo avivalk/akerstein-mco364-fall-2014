@@ -15,6 +15,7 @@ public class Canvas extends JComponent {
 	private DrawListener listener;
 	private BufferedImage[] layers;
 	private int layerSelected;
+	private boolean clear;
 
 	public Canvas() {
 		layers = new BufferedImage[4];
@@ -82,8 +83,6 @@ public class Canvas extends JComponent {
 			g.fillRect(0, 0, 800, 600);
 			g.setColor(this.color);
 		} else {
-
-			layers[layer] = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D graphics = (Graphics2D) layers[layer].getGraphics();
 			graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 			graphics.fillRect(0, 0, 800, 600);
@@ -93,6 +92,7 @@ public class Canvas extends JComponent {
 		}
 
 		repaint();
+		clear=true;
 	}
 
 	@Override
@@ -100,9 +100,12 @@ public class Canvas extends JComponent {
 		super.paintComponent(g);
 		for (int i = 0; i < 4; i++) {
 			g.drawImage(layers[i], 0, 0, null);
+			if(clear==false && i==layerSelected){
+				g.setColor(this.color);
+				setStrokeWidth(this.strokeWidth);
+				listener.drawPreview((Graphics2D) g);
+			}
 		}
-		g.setColor(this.color);
-		setStrokeWidth(this.strokeWidth);
-		listener.drawPreview((Graphics2D) g);
+		
 	}
 }

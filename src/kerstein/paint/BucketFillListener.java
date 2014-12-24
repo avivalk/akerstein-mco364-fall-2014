@@ -20,7 +20,7 @@ public class BucketFillListener implements DrawListener {
 	public void mouseClicked(MouseEvent e) {
 		x = e.getX();
 		y = e.getY();
-		int currentRGB = canvas.getLayers()[canvas.getLayeredSelected()].getRGB(x, y);
+		int currentRGB = canvas.getLayers()[canvas.getLayerSelected()].getRGB(x, y);
 		int replacementRGB = canvas.getColor().getRGB();
 		floodFill(x, y, currentRGB, replacementRGB);
 	}
@@ -66,9 +66,10 @@ public class BucketFillListener implements DrawListener {
 
 		while (!queue.isEmpty()) {
 			Point p = queue.remove();
-			int pixelColor = canvas.getLayers()[canvas.getLayeredSelected()].getRGB(p.x, p.y);
+			int pixelColor = canvas.getLayers()[canvas.getLayerSelected()].getRGB(p.x, p.y);
 			if (pixelColor != replacementColor && pixelColor == targetColor) {
-				canvas.getLayers()[canvas.getLayeredSelected()].setRGB(p.x, p.y, replacementColor);
+				if (x >= 0 && x < 800 && y >= 0 && y < 600){
+				canvas.getLayers()[canvas.getLayerSelected()].setRGB(p.x, p.y, replacementColor);
 				if (!filled[p.x - 1][p.y]) {
 					queue.add(new Point(p.x - 1, p.y));
 					filled[p.x - 1][p.y] = true;
@@ -91,5 +92,5 @@ public class BucketFillListener implements DrawListener {
 
 		}
 	}
-
+	}
 }
