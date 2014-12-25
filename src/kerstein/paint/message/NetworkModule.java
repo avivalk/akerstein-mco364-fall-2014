@@ -1,5 +1,6 @@
 package kerstein.paint.message;
 
 public interface NetworkModule {
-    public void sendMessage(PaintMessage message);
+
+	public void sendMessage();
 }

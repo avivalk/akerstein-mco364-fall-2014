@@ -135,10 +135,10 @@ public class Paint extends JFrame {
 		shapesPanel.add(bucketFill);
 		add(shapesPanel, BorderLayout.NORTH);
 
-		MessageFactory factory=new MessageFactory();
-		MessageReciever receiver=new MessageReciever(socket, factory, canvas);
+		MessageFactory factory = new MessageFactory(canvas);
+		MessageReciever receiver = new MessageReciever(socket, factory, canvas);
 		receiver.start();
-		
+
 		canvas.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int newStroke = (canvas.getStrokeWidth() + (e.getUnitsToScroll() * (-1)));

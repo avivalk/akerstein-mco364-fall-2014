@@ -4,9 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import kerstein.paint.message.LineMessage;
-import kerstein.paint.message.SendPaintMessage;
+import kerstein.paint.message.NetworkModule;
+import kerstein.paint.message.OnlineNetworkModule;
 
-public class PencilListener implements  DrawListener {
+public class PencilListener implements DrawListener {
 
 	private Canvas canvas;
 	private int sx;
@@ -25,8 +26,11 @@ public class PencilListener implements  DrawListener {
 		if (onDrag) {
 			x = e.getX();
 			y = e.getY();
-			canvas.getGraphicsPen().drawLine(sx, sy, x, y);
-			canvas.repaint();
+			LineMessage message = new LineMessage(sx, sy, x, y, canvas.getStrokeWidth(), canvas.getColor().getRGB());
+			NetworkModule network = new OnlineNetworkModule(message.toString(), canvas.getSocket());
+			network.sendMessage();
+			// canvas.getGraphicsPen().drawLine(sx, sy, x, y);
+			// canvas.repaint();
 		}
 		onDrag = true;
 		sx = e.getX();
@@ -74,10 +78,8 @@ public class PencilListener implements  DrawListener {
 	@Override
 	public void drawPreview(Graphics2D g) {
 		LineMessage message = new LineMessage(sx, sy, x, y, canvas.getStrokeWidth(), canvas.getColor().getRGB());
-		SendPaintMessage paintMessage = new SendPaintMessage(message.toString(), canvas.getSocket());
-		paintMessage.sendMessage();
-		canvas.getGraphicsPen().drawLine(sx, sy, x, y);
-
+		NetworkModule network = new OnlineNetworkModule(message.toString(), canvas.getSocket());
+		network.sendMessage();
+		// canvas.getGraphicsPen().drawLine(sx, sy, x, y);
 	}
-
 }

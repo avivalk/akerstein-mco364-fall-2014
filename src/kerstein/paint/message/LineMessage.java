@@ -12,7 +12,7 @@ public class LineMessage implements PaintMessage {
 	private int strokeWidth;
 	private int color;
 
-	public LineMessage(int x1, int y1, int x2, int y2,  int strokeWidth, int color) {
+	public LineMessage(int x1, int y1, int x2, int y2, int strokeWidth, int color) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;

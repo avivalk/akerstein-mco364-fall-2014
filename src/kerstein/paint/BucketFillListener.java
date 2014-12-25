@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import kerstein.paint.message.BucketFillMessage;
-import kerstein.paint.message.SendPaintMessage;
-import kerstein.paint.message.ShapeMessage;
+import kerstein.paint.message.NetworkModule;
+import kerstein.paint.message.OnlineNetworkModule;
 
 public class BucketFillListener implements DrawListener {
 
@@ -26,10 +26,11 @@ public class BucketFillListener implements DrawListener {
 		y = e.getY();
 		int currentRGB = canvas.getImage().getRGB(x, y);
 		int replacementRGB = canvas.getColor().getRGB();
-		BucketFillMessage bucket = new BucketFillMessage(x, y, canvas.getColor().getRGB());
-		SendPaintMessage paintMessage = new SendPaintMessage(bucket.toString(), canvas.getSocket());
-		paintMessage.sendMessage();
-		floodFill(x, y, currentRGB, replacementRGB);
+		BucketFillMessage bucket = new BucketFillMessage(x, y, canvas.getColor().getRGB(), canvas);
+		NetworkModule network = new OnlineNetworkModule(bucket.toString(), canvas.getSocket());
+		network.sendMessage();
+
+		// floodFill(x, y, currentRGB, replacementRGB);
 	}
 
 	@Override
@@ -75,28 +76,28 @@ public class BucketFillListener implements DrawListener {
 			Point p = queue.remove();
 			int pixelColor = canvas.getImage().getRGB(p.x, p.y);
 			if (pixelColor != replacementColor && pixelColor == currentColor) {
-				canvas.getImage().setRGB(p.x, p.y, replacementColor);
+				if (x >= 0 && x < 800 && y >= 0 && y < 600) {
+					canvas.getImage().setRGB(p.x, p.y, replacementColor);
+					if (!filled[p.x - 1][p.y]) {
+						queue.add(new Point(p.x - 1, p.y));
+						filled[p.x - 1][p.y] = true;
+					}
+					if (!filled[p.x + 1][p.y]) {
+						queue.add(new Point(p.x + 1, p.y));
+						filled[p.x + 1][p.y] = true;
+					}
+					if (!filled[p.x][p.y - 1]) {
+						queue.add(new Point(p.x, p.y - 1));
+						filled[p.x][p.y - 1] = true;
+					}
+					if (!filled[p.x][p.y + 1]) {
+						queue.add(new Point(p.x, p.y + 1));
+						filled[p.x][p.y + 1] = true;
+					}
+					canvas.repaint();
 
-				if (!filled[p.x - 1][p.y]) {
-					queue.add(new Point(p.x - 1, p.y));
-					filled[p.x - 1][p.y] = true;
 				}
-				if (!filled[p.x + 1][p.y]) {
-					queue.add(new Point(p.x + 1, p.y));
-					filled[p.x + 1][p.y] = true;
-				}
-				if (!filled[p.x][p.y - 1]) {
-					queue.add(new Point(p.x, p.y - 1));
-					filled[p.x][p.y - 1] = true;
-				}
-				if (!filled[p.x][p.y + 1]) {
-					queue.add(new Point(p.x, p.y + 1));
-					filled[p.x][p.y + 1] = true;
-				}
-				canvas.repaint();
-
 			}
-
 		}
 	}
 

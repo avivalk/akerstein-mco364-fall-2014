@@ -3,7 +3,8 @@ package kerstein.paint;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import kerstein.paint.message.SendPaintMessage;
+import kerstein.paint.message.NetworkModule;
+import kerstein.paint.message.OnlineNetworkModule;
 import kerstein.paint.message.ShapeMessage;
 
 public class MouseDrawRectangleListener implements DrawListener {
@@ -47,18 +48,19 @@ public class MouseDrawRectangleListener implements DrawListener {
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
 		if (fillShape) {
-			ShapeMessage fillRect = new ShapeMessage("SHAPE RECT", x1, y1, width, height, 
-					canvas.getColor().getRGB(), canvas.getStrokeWidth(), true);
-			SendPaintMessage paintMessage = new SendPaintMessage(fillRect.toString(), canvas.getSocket());
-			paintMessage.sendMessage();
+			ShapeMessage fillRect = new ShapeMessage("RECT", x1, y1, width, height, canvas.getColor().getRGB(),
+					canvas.getStrokeWidth(), true);
+			NetworkModule network = new OnlineNetworkModule(fillRect.toString(), canvas.getSocket());
+			network.sendMessage();
 			// canvas.getGraphicsPen().fillRect((Math.min(x1, x2)),
 			// (Math.min(y1, y2)), width, height);
 		} else {
-			ShapeMessage rectangle = new ShapeMessage("SHAPE RECT", x1, y1, width, height,  canvas
-					.getColor().getRGB(), canvas.getStrokeWidth(), false);
-			SendPaintMessage paintMessage = new SendPaintMessage(rectangle.toString(), canvas.getSocket());
-			paintMessage.sendMessage();
-			//canvas.getGraphicsPen().drawRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
+			ShapeMessage rectangle = new ShapeMessage("RECT", x1, y1, width, height, canvas.getColor().getRGB(),
+					canvas.getStrokeWidth(), false);
+			NetworkModule network = new OnlineNetworkModule(rectangle.toString(), canvas.getSocket());
+			network.sendMessage();
+			// canvas.getGraphicsPen().drawRect((Math.min(x1, x2)),
+			// (Math.min(y1, y2)), width, height);
 		}
 		canvas.repaint();
 	}

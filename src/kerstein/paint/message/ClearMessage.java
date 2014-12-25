@@ -1,5 +1,6 @@
 package kerstein.paint.message;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class ClearMessage implements PaintMessage {
@@ -10,8 +11,9 @@ public class ClearMessage implements PaintMessage {
 
 	@Override
 	public void apply(Graphics2D g) {
-		// TODO Auto-generated method stub
-
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 800, 600);
+		g.setColor(Color.BLACK);
 	}
 
 }

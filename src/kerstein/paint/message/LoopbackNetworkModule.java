@@ -1,9 +1,9 @@
 package kerstein.paint.message;
 
-public class LoopbackNetworkModule implements NetworkModule{
+public class LoopbackNetworkModule implements NetworkModule {
 
 	@Override
-	public void sendMessage(PaintMessage message) {
+	public void sendMessage() {
 
 	}
 }

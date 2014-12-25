@@ -1,5 +1,7 @@
 package kerstein.paint.message;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class ShapeMessage implements PaintMessage {
@@ -11,8 +13,8 @@ public class ShapeMessage implements PaintMessage {
 	private int width;
 	private int height;
 	private boolean fill;
-	
-	public ShapeMessage(String type,int x, int y,  int width, int height, int strokeWidth, int color,  boolean fill) {
+
+	public ShapeMessage(String type, int x, int y, int width, int height, int color, int strokeWidth, boolean fill) {
 		this.x = x;
 		this.y = y;
 		this.strokeWidth = strokeWidth;
@@ -89,22 +91,27 @@ public class ShapeMessage implements PaintMessage {
 
 	@Override
 	public String toString() {
-		return type + " " + x + " " + y + " " + strokeWidth + " " + color + " "+ width + " " + height + " " + fill
-				+ " " + "\n";
+		return "SHAPE" + " " + type + " " + x + " " + y + " " + width + " " + height + " " + color + " " + strokeWidth
+				+ " " + fill + "\n";
 	}
-
-
 
 	@Override
 	public void apply(Graphics2D g) {
+		if (strokeWidth < 1) {
+			strokeWidth = 1;
+		}
+		BasicStroke basic = new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+		g.setStroke(basic);
+		g.setColor(new Color(color));
 		switch (type) {
-		case "rectangle":
+		case "RECT":
 			if (fill) {
 				g.fillRect(x, y, width, height);
 			} else {
 				g.drawRect(x, y, width, height);
 			}
-		case "oval":
+			break;
+		case "OVAL":
 			if (fill) {
 				g.fillOval(x, y, width, height);
 			} else {

@@ -10,7 +10,8 @@ import java.net.Socket;
 import javax.swing.JComponent;
 
 import kerstein.paint.message.ClearMessage;
-import kerstein.paint.message.SendPaintMessage;
+import kerstein.paint.message.NetworkModule;
+import kerstein.paint.message.OnlineNetworkModule;
 
 public class Canvas extends JComponent {
 	private Color color;
@@ -26,8 +27,8 @@ public class Canvas extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		setPenColor(Color.BLACK);
-		//setDrawListener(new PencilListener(this));
-		this.socket=socket;
+		// setDrawListener(new PencilListener(this));
+		this.socket = socket;
 	}
 
 	public void setDrawListener(DrawListener dl) {
@@ -59,7 +60,7 @@ public class Canvas extends JComponent {
 	}
 
 	public void setPenColor(Color color) {
-		this.color=color;
+		this.color = color;
 		g.setColor(this.color);
 	}
 
@@ -67,26 +68,23 @@ public class Canvas extends JComponent {
 		return image;
 	}
 
-
 	public void clear() {
-		ClearMessage clear=new ClearMessage();
-	    SendPaintMessage paintMessage = new SendPaintMessage(clear.toString(), socket);
-		paintMessage.sendMessage();
-		/*g = (Graphics2D) image.getGraphics();
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 800, 600);
-		g.setColor(Color.BLACK);
+		ClearMessage clear = new ClearMessage();
+		NetworkModule network = new OnlineNetworkModule(clear.toString(), socket);
+		network.sendMessage();
+		/*
+		 * g = (Graphics2D) image.getGraphics(); g.setColor(Color.WHITE);
+		 * g.fillRect(0, 0, 800, 600); g.setColor(Color.BLACK);
+		 */
 		setDrawListener(new PencilListener(this));
-		repaint();
-		*/
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
 		setPenColor(this.color);
-		//listener.drawPreview((Graphics2D) g);
+		// listener.drawPreview((Graphics2D) g);
 	}
 
 	public Socket getSocket() {
