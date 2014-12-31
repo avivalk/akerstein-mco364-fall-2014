@@ -19,7 +19,6 @@ public class BucketFillListener implements DrawListener {
 	public BucketFillListener(Canvas canvas) {
 		this.canvas = canvas;
 	}
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		x = e.getX();
@@ -29,7 +28,6 @@ public class BucketFillListener implements DrawListener {
 		BucketFillMessage bucket = new BucketFillMessage(x, y, canvas.getColor().getRGB(), canvas);
 		NetworkModule network = new OnlineNetworkModule(bucket.toString(), canvas.getSocket());
 		network.sendMessage();
-
 		// floodFill(x, y, currentRGB, replacementRGB);
 	}
 

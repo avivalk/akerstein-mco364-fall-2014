@@ -12,12 +12,12 @@ public class LineMessage implements PaintMessage {
 	private int strokeWidth;
 	private int color;
 
-	public LineMessage(int x1, int y1, int x2, int y2, int strokeWidth, int color) {
+	public LineMessage(int x1, int y1, int x2, int y2, int color, int strokewidth) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		this.strokeWidth = strokeWidth;
+		this.strokeWidth = strokewidth;
 		this.color = color;
 	}
 
@@ -71,7 +71,7 @@ public class LineMessage implements PaintMessage {
 
 	@Override
 	public String toString() {
-		return "LINE " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + strokeWidth + " " + color + "\n";
+		return "LINE " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + color + " " + strokeWidth + "\n";
 	}
 
 	@Override
