@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import kerstein.paint.message.LineMessage;
+import kerstein.paint.message.LoopbackNetworkModule;
 import kerstein.paint.message.NetworkModule;
 import kerstein.paint.message.OnlineNetworkModule;
 
@@ -41,9 +42,10 @@ public class MouseDrawLineListener implements DrawListener {
 		x2 = e.getX();
 		y2 = e.getY();
 		LineMessage message = new LineMessage(x1, y1, x2, y2, canvas.getStrokeWidth(), canvas.getColor().getRGB());
-		NetworkModule network = new OnlineNetworkModule(message.toString(), canvas.getSocket());
-		network.sendMessage();
-		// canvas.getGraphicsPen().drawLine(x1, y1, x2, y2);
+		NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
+		network.sendMessage(message);
+		//LoopbackNetworkModule loop = new LoopbackNetworkModule(canvas);
+		//loop.sendMessage(message);
 	}
 
 	@Override

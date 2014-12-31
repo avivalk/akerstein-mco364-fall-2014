@@ -6,19 +6,17 @@ import java.net.Socket;
 
 public class OnlineNetworkModule implements NetworkModule {
 
-	private String message;
 	private Socket socket;
 
-	public OnlineNetworkModule(String message, Socket socket) {
-		this.message = message;
+	public OnlineNetworkModule(Socket socket) {
 		this.socket = socket;
 	}
 
 	@Override
-	public void sendMessage() {
+	public void sendMessage(PaintMessage message) {
 		try {
 			OutputStream out = socket.getOutputStream();
-			out.write((message).getBytes());
+			out.write((message.toString()).getBytes());
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

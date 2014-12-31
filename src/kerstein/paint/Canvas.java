@@ -70,8 +70,8 @@ public class Canvas extends JComponent {
 
 	public void clear() {
 		ClearMessage clear = new ClearMessage();
-		NetworkModule network = new OnlineNetworkModule(clear.toString(), socket);
-		network.sendMessage();
+		NetworkModule network = new OnlineNetworkModule(socket);
+		network.sendMessage(clear);
 		/*
 		 * g = (Graphics2D) image.getGraphics(); g.setColor(Color.WHITE);
 		 * g.fillRect(0, 0, 800, 600); g.setColor(Color.BLACK);

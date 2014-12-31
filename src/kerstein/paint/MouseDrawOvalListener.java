@@ -3,6 +3,7 @@ package kerstein.paint;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import kerstein.paint.message.LoopbackNetworkModule;
 import kerstein.paint.message.NetworkModule;
 import kerstein.paint.message.OnlineNetworkModule;
 import kerstein.paint.message.ShapeMessage;
@@ -48,21 +49,19 @@ public class MouseDrawOvalListener implements DrawListener {
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
 		if (fillShape) {
-			// ShapeMessage fillOval = new ShapeMessage("OVAL", x1, y1, width,
-			// height,
-			// canvas.getColor().getRGB(),canvas.getStrokeWidth(), true);
-			// NetworkModule network = new
-			// OnlineNetworkModule(fillOval.toString(), canvas.getSocket());
-			// network.sendMessage();
-			canvas.getGraphicsPen().fillOval((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
+			ShapeMessage fillOval = new ShapeMessage("OVAL", x1, y1, width, height, canvas.getColor().getRGB(),
+					canvas.getStrokeWidth(), true);
+			NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
+			network.sendMessage(fillOval);
+			// LoopbackNetworkModule loop = new LoopbackNetworkModule(canvas);
+			// loop.sendMessage(fillOval);
 		} else {
-			// ShapeMessage drawOval = new ShapeMessage("OVAL", x1, y1, width,
-			// height,
-			// canvas.getColor().getRGB(), canvas.getStrokeWidth(), false);
-			// NetworkModule network = new
-			// OnlineNetworkModule(drawOval.toString(), canvas.getSocket());
-			// network.sendMessage();
-			canvas.getGraphicsPen().drawOval((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
+			ShapeMessage drawOval = new ShapeMessage("OVAL", x1, y1, width, height, canvas.getColor().getRGB(),
+					canvas.getStrokeWidth(), true);
+			NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
+			network.sendMessage(drawOval);
+			// LoopbackNetworkModule loop = new LoopbackNetworkModule(canvas);
+			// loop.sendMessage(fillOval);
 		}
 		canvas.repaint();
 	}
