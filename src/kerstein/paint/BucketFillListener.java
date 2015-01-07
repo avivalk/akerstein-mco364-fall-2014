@@ -1,13 +1,8 @@
 package kerstein.paint;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
-import java.util.Queue;
-
 import kerstein.paint.message.BucketFillMessage;
-import kerstein.paint.message.LoopbackNetworkModule;
 import kerstein.paint.message.NetworkModule;
 import kerstein.paint.message.OnlineNetworkModule;
 
@@ -25,11 +20,8 @@ public class BucketFillListener implements DrawListener {
 	public void mouseClicked(MouseEvent e) {
 		x = e.getX();
 		y = e.getY();
-		BucketFillMessage bucket = new BucketFillMessage(x, y, canvas.getColor().getRGB(), canvas);
-		NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
-		network.sendMessage(bucket);
-		//LoopbackNetworkModule loop = new LoopbackNetworkModule(canvas);
-		//loop.sendMessage(bucket);
+		BucketFillMessage message = new BucketFillMessage(x, y, canvas.getColor().getRGB(), canvas);
+		canvas.getModule().sendMessage(message);
 	}
 
 	@Override

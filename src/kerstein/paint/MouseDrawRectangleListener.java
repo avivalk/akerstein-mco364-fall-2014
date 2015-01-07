@@ -2,10 +2,6 @@ package kerstein.paint;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-
-import kerstein.paint.message.LoopbackNetworkModule;
-import kerstein.paint.message.NetworkModule;
-import kerstein.paint.message.OnlineNetworkModule;
 import kerstein.paint.message.ShapeMessage;
 
 public class MouseDrawRectangleListener implements DrawListener {
@@ -48,21 +44,17 @@ public class MouseDrawRectangleListener implements DrawListener {
 		y2 = e.getY();
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
+		x1=(Math.min(x1, x2));
+		y1=(Math.min(y1, y2));
+		ShapeMessage message;
 		if (fillShape) {
-			ShapeMessage fillRect = new ShapeMessage("RECT", x1, y1, width, height, canvas.getColor().getRGB(),
+			message = new ShapeMessage("RECT", x1, y1, width, height, canvas.getColor().getRGB(),
 					canvas.getStrokeWidth(), true);
-			NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
-			network.sendMessage(fillRect);
-			// LoopbackNetworkModule loop=new LoopbackNetworkModule(canvas);
-			// loop.sendMessage(fillRect);
 		} else {
-			ShapeMessage rectangle = new ShapeMessage("RECT", x1, y1, width, height, canvas.getColor().getRGB(),
+			message = new ShapeMessage("RECT", x1, y1, width, height, canvas.getColor().getRGB(),
 					canvas.getStrokeWidth(), false);
-			NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
-			network.sendMessage(rectangle);
-			//LoopbackNetworkModule loop = new LoopbackNetworkModule(canvas);
-			//loop.sendMessage(rectangle);
 		}
+		canvas.getModule().sendMessage(message);
 		canvas.repaint();
 	}
 
@@ -78,7 +70,7 @@ public class MouseDrawRectangleListener implements DrawListener {
 	@Override
 	public void drawPreview(Graphics2D g) {
 		if (fillShape) {
-			g.fillRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
+			g.fillRect((Math.min(x1, x2)), (Math.min(y1, y2)) , width, height);
 		} else {
 			g.drawRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		}

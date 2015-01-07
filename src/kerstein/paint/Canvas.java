@@ -10,6 +10,7 @@ import java.net.Socket;
 import javax.swing.JComponent;
 
 import kerstein.paint.message.ClearMessage;
+import kerstein.paint.message.LoopbackNetworkModule;
 import kerstein.paint.message.NetworkModule;
 import kerstein.paint.message.OnlineNetworkModule;
 
@@ -20,6 +21,7 @@ public class Canvas extends JComponent {
 	private int strokeWidth;
 	private DrawListener listener;
 	private Socket socket;
+	private NetworkModule module;
 
 	public Canvas(Socket socket) {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
@@ -27,8 +29,17 @@ public class Canvas extends JComponent {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
 		setPenColor(Color.BLACK);
-		// setDrawListener(new PencilListener(this));
 		this.socket = socket;
+		this.module = new OnlineNetworkModule(this.socket);
+		// this.module=new LoopbackNetworkModule(this);
+	}
+
+	public void reset() {
+		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+		g = (Graphics2D) image.getGraphics();
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 800, 600);
+		setPenColor(getColor());
 	}
 
 	public void setDrawListener(DrawListener dl) {
@@ -51,7 +62,7 @@ public class Canvas extends JComponent {
 	public void setStrokeWidth(int width) {
 		this.strokeWidth = width;
 		BasicStroke basic = new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
-		g.setStroke(basic);
+		getGraphicsPen().setStroke(basic);
 	}
 
 	public Color getColor() {
@@ -69,13 +80,8 @@ public class Canvas extends JComponent {
 	}
 
 	public void clear() {
-		ClearMessage clear = new ClearMessage();
-		NetworkModule network = new OnlineNetworkModule(socket);
-		network.sendMessage(clear);
-		/*
-		 * g = (Graphics2D) image.getGraphics(); g.setColor(Color.WHITE);
-		 * g.fillRect(0, 0, 800, 600); g.setColor(Color.BLACK);
-		 */
+		ClearMessage clear = new ClearMessage(this);
+		module.sendMessage(clear);
 		setDrawListener(new PencilListener(this));
 	}
 
@@ -84,10 +90,19 @@ public class Canvas extends JComponent {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
 		setPenColor(this.color);
-		// listener.drawPreview((Graphics2D) g);
+		g.setColor(this.color);
+		BasicStroke basic = new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+		((Graphics2D) g).setStroke(basic);
+		if (listener != null) {
+			listener.drawPreview((Graphics2D) g);
+		}
 	}
 
 	public Socket getSocket() {
 		return socket;
+	}
+
+	public NetworkModule getModule() {
+		return module;
 	}
 }

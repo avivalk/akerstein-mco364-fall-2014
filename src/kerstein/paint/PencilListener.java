@@ -27,11 +27,8 @@ public class PencilListener implements DrawListener {
 		if (onDrag) {
 			x = e.getX();
 			y = e.getY();
-			LineMessage message = new LineMessage(sx, sy, x, y, canvas.getStrokeWidth(), canvas.getColor().getRGB());
-			NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
-			network.sendMessage(message);
-			// canvas.getGraphicsPen().drawLine(sx, sy, x, y);
-			// canvas.repaint();
+			LineMessage message = new LineMessage(sx, sy, x, y, canvas.getColor().getRGB(), canvas.getStrokeWidth());
+			canvas.getModule().sendMessage(message);
 		}
 		onDrag = true;
 		sx = e.getX();
@@ -74,10 +71,7 @@ public class PencilListener implements DrawListener {
 
 	@Override
 	public void drawPreview(Graphics2D g) {
-		LineMessage message = new LineMessage(sx, sy, x, y, canvas.getStrokeWidth(), canvas.getColor().getRGB());
-		NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
-		network.sendMessage(message);
-		// LoopbackNetworkModule loop=new LoopbackNetworkModule(canvas);
-		// loop.sendMessage(message);
+		//LineMessage message = new LineMessage(sx, sy, x, y,  canvas.getColor().getRGB(),canvas.getStrokeWidth());
+		//canvas.getModule().sendMessage(message);
 	}
 }

@@ -48,21 +48,17 @@ public class MouseDrawOvalListener implements DrawListener {
 		y2 = e.getY();
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
+		x1 = (Math.min(x1, x2));
+		y1 = (Math.min(y1, y2));
+		ShapeMessage message;
 		if (fillShape) {
-			ShapeMessage fillOval = new ShapeMessage("OVAL", x1, y1, width, height, canvas.getColor().getRGB(),
+			message = new ShapeMessage("OVAL", x1, y1, width, height, canvas.getColor().getRGB(),
 					canvas.getStrokeWidth(), true);
-			NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
-			network.sendMessage(fillOval);
-			// LoopbackNetworkModule loop = new LoopbackNetworkModule(canvas);
-			// loop.sendMessage(fillOval);
 		} else {
-			ShapeMessage drawOval = new ShapeMessage("OVAL", x1, y1, width, height, canvas.getColor().getRGB(),
-					canvas.getStrokeWidth(), true);
-			NetworkModule network = new OnlineNetworkModule(canvas.getSocket());
-			network.sendMessage(drawOval);
-			// LoopbackNetworkModule loop = new LoopbackNetworkModule(canvas);
-			// loop.sendMessage(fillOval);
+			message = new ShapeMessage("OVAL", x1, y1, width, height, canvas.getColor().getRGB(),
+					canvas.getStrokeWidth(), false);
 		}
+		canvas.getModule().sendMessage(message);
 		canvas.repaint();
 	}
 

@@ -1,9 +1,15 @@
 package kerstein.paint.message;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
+import kerstein.paint.Canvas;
+
 public class ClearMessage implements PaintMessage {
+	private Canvas canvas;
+	
+	public ClearMessage(Canvas canvas){
+		this.canvas=canvas;
+	}
 
 	public String toString() {
 		return "CLEAR" + "\n";
@@ -11,9 +17,7 @@ public class ClearMessage implements PaintMessage {
 
 	@Override
 	public void apply(Graphics2D g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 800, 600);
-		g.setColor(Color.BLACK);
+		canvas.reset();
 	}
 
 }

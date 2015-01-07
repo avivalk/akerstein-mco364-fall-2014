@@ -26,7 +26,7 @@ public class MessageFactory {
 					Integer.parseInt(action[7]), Boolean.parseBoolean(action[8]));
 			break;
 		case "CLEAR":
-			paintMessage = new ClearMessage();
+			paintMessage = new ClearMessage(canvas);
 			break;
 		case "BUCKET_FILL":
 			paintMessage = new BucketFillMessage(Integer.parseInt(action[1]), Integer.parseInt(action[2]),

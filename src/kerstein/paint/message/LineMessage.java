@@ -12,12 +12,12 @@ public class LineMessage implements PaintMessage {
 	private int strokeWidth;
 	private int color;
 
-	public LineMessage(int x1, int y1, int x2, int y2, int color, int strokewidth) {
+	public LineMessage(int x1, int y1, int x2, int y2, int color, int strokeWidth) {
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		this.strokeWidth = strokewidth;
+		this.strokeWidth = strokeWidth;
 		this.color = color;
 	}
 
@@ -76,7 +76,7 @@ public class LineMessage implements PaintMessage {
 
 	@Override
 	public void apply(Graphics2D g) {
-		if (strokeWidth < 1) {
+		if (this.strokeWidth < 1) {
 			strokeWidth = 1;
 		}
 		BasicStroke basic = new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
