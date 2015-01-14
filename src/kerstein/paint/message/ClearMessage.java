@@ -6,9 +6,9 @@ import kerstein.paint.Canvas;
 
 public class ClearMessage implements PaintMessage {
 	private Canvas canvas;
-	
-	public ClearMessage(Canvas canvas){
-		this.canvas=canvas;
+
+	public ClearMessage(Canvas canvas) {
+		this.canvas = canvas;
 	}
 
 	public String toString() {

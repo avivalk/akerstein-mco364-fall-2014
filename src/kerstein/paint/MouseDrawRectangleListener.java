@@ -44,8 +44,8 @@ public class MouseDrawRectangleListener implements DrawListener {
 		y2 = e.getY();
 		width = Math.abs(x2 - x1);
 		height = Math.abs(y2 - y1);
-		x1=(Math.min(x1, x2));
-		y1=(Math.min(y1, y2));
+		x1 = (Math.min(x1, x2));
+		y1 = (Math.min(y1, y2));
 		ShapeMessage message;
 		if (fillShape) {
 			message = new ShapeMessage("RECT", x1, y1, width, height, canvas.getColor().getRGB(),
@@ -70,7 +70,7 @@ public class MouseDrawRectangleListener implements DrawListener {
 	@Override
 	public void drawPreview(Graphics2D g) {
 		if (fillShape) {
-			g.fillRect((Math.min(x1, x2)), (Math.min(y1, y2)) , width, height);
+			g.fillRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		} else {
 			g.drawRect((Math.min(x1, x2)), (Math.min(y1, y2)), width, height);
 		}

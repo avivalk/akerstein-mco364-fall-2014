@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.io.IOException;
-import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -17,8 +15,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import kerstein.paint.message.LoopbackNetworkModule;
 import kerstein.paint.message.MessageFactory;
-import kerstein.paint.message.MessageReciever;
+import kerstein.paint.message.NetworkModule;
+import kerstein.paint.message.OnlineNetworkModule;
 
 public class Paint extends JFrame {
 
@@ -40,23 +40,24 @@ public class Paint extends JFrame {
 	private JButton fillOval;
 	private JButton drawLine;
 	private JButton bucketFill;
-	private Socket socket;
+	private NetworkModule module;
 
 	public Paint() {
 		this.setSize(800, 600);
 		this.setTitle("PAINT");
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		try {
-			socket = new Socket("192.168.117.107", 3773);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 		BorderLayout layout = new BorderLayout();
 		Container container = getContentPane();
 		container.setLayout(layout);
-		canvas = new Canvas(socket);
+		canvas = new Canvas();
 		add(canvas, BorderLayout.CENTER);
+		MessageFactory factory = new MessageFactory(canvas);
+
+		 //this.module = new OnlineNetworkModule(factory,canvas);
+		this.module = new LoopbackNetworkModule(canvas);
+		canvas.setModule(this.module);
 
 		PencilListener pencilListener = new PencilListener(canvas);
 		MouseDrawRectangleListener rectListen = new MouseDrawRectangleListener(canvas);
@@ -134,10 +135,6 @@ public class Paint extends JFrame {
 				lineListen, bucketListen));
 		shapesPanel.add(bucketFill);
 		add(shapesPanel, BorderLayout.NORTH);
-
-		MessageFactory factory = new MessageFactory(canvas);
-		MessageReciever receiver = new MessageReciever(socket, factory, canvas);
-		receiver.start();
 
 		canvas.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {

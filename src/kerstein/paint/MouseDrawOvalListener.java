@@ -2,10 +2,6 @@ package kerstein.paint;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-
-import kerstein.paint.message.LoopbackNetworkModule;
-import kerstein.paint.message.NetworkModule;
-import kerstein.paint.message.OnlineNetworkModule;
 import kerstein.paint.message.ShapeMessage;
 
 public class MouseDrawOvalListener implements DrawListener {

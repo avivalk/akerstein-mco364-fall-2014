@@ -3,8 +3,6 @@ package kerstein.paint;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import kerstein.paint.message.BucketFillMessage;
-import kerstein.paint.message.NetworkModule;
-import kerstein.paint.message.OnlineNetworkModule;
 
 public class BucketFillListener implements DrawListener {
 

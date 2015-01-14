@@ -5,14 +5,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.net.Socket;
-
 import javax.swing.JComponent;
-
 import kerstein.paint.message.ClearMessage;
-import kerstein.paint.message.LoopbackNetworkModule;
 import kerstein.paint.message.NetworkModule;
-import kerstein.paint.message.OnlineNetworkModule;
 
 public class Canvas extends JComponent {
 	private Color color;
@@ -20,18 +15,20 @@ public class Canvas extends JComponent {
 	private BufferedImage image;
 	private int strokeWidth;
 	private DrawListener listener;
-	private Socket socket;
 	private NetworkModule module;
 
-	public Canvas(Socket socket) {
+	public Canvas() {
 		image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 		g = (Graphics2D) image.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 800, 600);
-		setPenColor(Color.BLACK);
-		this.socket = socket;
-		this.module = new OnlineNetworkModule(this.socket);
-		// this.module=new LoopbackNetworkModule(this);
+		this.color = Color.BLACK;
+		setPenColor(this.color);
+		this.module = null;
+	}
+
+	public void setModule(NetworkModule module) {
+		this.module = module;
 	}
 
 	public void reset() {
@@ -96,10 +93,6 @@ public class Canvas extends JComponent {
 		if (listener != null) {
 			listener.drawPreview((Graphics2D) g);
 		}
-	}
-
-	public Socket getSocket() {
-		return socket;
 	}
 
 	public NetworkModule getModule() {

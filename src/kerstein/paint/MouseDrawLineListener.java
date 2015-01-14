@@ -37,7 +37,7 @@ public class MouseDrawLineListener implements DrawListener {
 	public void mouseReleased(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
-		LineMessage message = new LineMessage(x1, y1, x2, y2, canvas.getColor().getRGB(),canvas.getStrokeWidth());
+		LineMessage message = new LineMessage(x1, y1, x2, y2, canvas.getColor().getRGB(), canvas.getStrokeWidth());
 		canvas.getModule().sendMessage(message);
 	}
 
@@ -54,7 +54,7 @@ public class MouseDrawLineListener implements DrawListener {
 
 	@Override
 	public void drawPreview(Graphics2D g) {
-	     g.drawLine(x1, y1, x2, y2);
+		g.drawLine(x1, y1, x2, y2);
 
 	}
 
